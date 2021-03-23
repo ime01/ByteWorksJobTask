@@ -38,7 +38,6 @@ object AppModule {
                     employeeDao.get().insertList(employeeList)
                     adminDao.get().insertList(adminList)
 
-
                 }
 
             }
@@ -46,15 +45,19 @@ object AppModule {
         }).fallbackToDestructiveMigration()
             .build()
 
+
+
+    @Provides
+    @Singleton
+    fun providesEmployeesDao(db:CompanyDataBase) = db.EmployeeDao()
+
+    @Provides
+    @Singleton
+    fun providesAdminDao(db:CompanyDataBase) = db.AdminDao()
+
+
 }
 
-@Provides
-@Singleton
-fun providesEmployeesDao(db:CompanyDataBase) = db.EmployeeDao()
-
-@Provides
-@Singleton
-fun providesAdminDao(db:CompanyDataBase) = db.AdminDao()
 
 
 const val DATABASENAME = "companystaff_db"

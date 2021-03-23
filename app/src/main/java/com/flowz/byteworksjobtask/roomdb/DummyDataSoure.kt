@@ -47,7 +47,7 @@ class DummyDataSoure {
                 true,
                 "President",
                 "23/03/2021",
-                R.drawable.p_regan,
+                R.drawable.p_bush,
                 "White House",
                 "USA",
                 "Washington"

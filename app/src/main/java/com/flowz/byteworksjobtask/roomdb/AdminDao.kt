@@ -6,7 +6,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.flowz.byteworksjobtask.Model.Admin
-import com.flowz.byteworksjobtask.Model.Employee
 
 @Dao
 interface AdminDao {

@@ -4,14 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/parent"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     app:cardBackgroundColor="@android:color/holo_blue_bright"
     app:cardCornerRadius="18dp"
     app:cardElevation="2dp"
     app:cardUseCompatPadding="true"
     app:contentPadding="8dp">
-
-
 
     <androidx.cardview.widget.CardView
         android:id="@+id/parent_layout"
@@ -35,14 +33,14 @@
                 android:id="@+id/passport_photo"
                 android:layout_width="@dimen/user_placeholder_dimen"
                 android:layout_height="@dimen/user_placeholder_dimen"
+                android:contentDescription="@string/user_placholder_image"
                 android:src="@drawable/ic_baseline_person_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.475"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.03"
-                android:contentDescription="@string/user_placholder_image" />
+                app:layout_constraintVertical_bias="0.03" />
 
             <TextView
                 android:id="@+id/first_name"
