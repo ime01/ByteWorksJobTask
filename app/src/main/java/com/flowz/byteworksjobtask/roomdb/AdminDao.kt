@@ -16,4 +16,7 @@ interface AdminDao {
 
     @Query("SELECT * FROM admin_table ")
     fun getAllAdmins(): LiveData<List<Admin>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertList(admins: List<Admin>)
 }

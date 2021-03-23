@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.flowz.byteworksjobtask.Model.Admin
+import com.flowz.byteworksjobtask.roomdb.AdminDao
 import com.flowz.byteworksjobtask.roomdb.CompanyDataBase
 import com.flowz.byteworksjobtask.roomdb.DummyDataSoure
 import com.flowz.byteworksjobtask.roomdb.EmployeeDao
@@ -24,15 +26,18 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesCompanyDatabase(@ApplicationContext app: Context, employeeDao: Provider<EmployeeDao>) =
+    fun providesCompanyDatabase(@ApplicationContext app: Context, employeeDao: Provider<EmployeeDao>, adminDao: Provider<AdminDao>) =
         Room.databaseBuilder(app, CompanyDataBase::class.java,  DATABASENAME).addCallback(object: RoomDatabase.Callback(){
             override fun onCreate(db: SupportSQLiteDatabase) {
                 super.onCreate(db)
 
                 val employeeList = DummyDataSoure().DummyListOfEmployees()
+                val adminList = DummyDataSoure().DummyListOfAdmins()
 
                 GlobalScope.launch (Dispatchers.IO){
                     employeeDao.get().insertList(employeeList)
+                    adminDao.get().insertList(adminList)
+
 
                 }
 

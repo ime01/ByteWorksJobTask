@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">ByteWorksJobTask</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_new">add new employee</string>
+    <string name="user_placholder_image">placeholder Image</string>
 </resources>

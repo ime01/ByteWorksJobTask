@@ -57,4 +57,42 @@ class DummyDataSoure {
 
         return employeeList
     }
+
+
+
+    fun DummyListOfAdmins(): List<Admin> {
+        val adminList: ArrayList<Admin> = ArrayList()
+
+        adminList.add(
+            Admin(
+                "Donald",
+                "Trump",
+                true,
+                "President",
+                R.drawable.p_trump,
+                "White House",
+                "USA",
+                "Washington"
+
+            )
+        )
+
+        adminList.add(
+            Admin(
+                "Ronald",
+                "Regan",
+                true,
+                "President",
+                R.drawable.p_regan,
+                "White House",
+                "USA",
+                "Washington"
+
+            )
+        )
+
+        return adminList
+
+
+    }
 }

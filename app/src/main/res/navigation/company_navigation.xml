@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/company_navigation.xml"
+    app:startDestination="@id/employeeFragment">
+
+    <fragment
+        android:id="@+id/adminLoginFragment"
+        android:name="com.flowz.byteworksjobtask.ui.AdminLoginFragment"
+        android:label="Admin Login"
+        tools:layout="@layout/fragment_admin_login" >
+        <action
+            android:id="@+id/action_adminLoginFragment_to_employeeFragment"
+            app:destination="@id/employeeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/employeeFragment"
+        android:name="com.flowz.byteworksjobtask.ui.EmployeeFragment"
+        android:label="Employees"
+        tools:layout="@layout/fragment_employee" >
+        <action
+            android:id="@+id/action_employeeFragment_to_addNewEmployeeFragment"
+            app:destination="@id/addNewEmployeeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addNewEmployeeFragment"
+        android:name="com.flowz.byteworksjobtask.ui.AddNewEmployeeFragment"
+        android:label="Add New Employees"
+        tools:layout="@layout/fragment_add_new_employee" />
+</navigation>

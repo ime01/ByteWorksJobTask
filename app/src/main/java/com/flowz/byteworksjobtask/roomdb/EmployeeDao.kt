@@ -19,6 +19,6 @@ interface EmployeeDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertList(employees: List<Employee>)
 
-    @Query("SELECT * FROM employee_table WHERE lastName = :surName ")
-    fun searchForEmployee(surName: String): LiveData<List<Employee>>
+//    @Query("SELECT * FROM employee_table WHERE lastName = :surName ")
+//    fun searchForEmployee(surName: String): LiveData<List<Employee>>
 }
