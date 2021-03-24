@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/company_navigation.xml"
-    app:startDestination="@id/employeeFragment">
+    app:startDestination="@id/adminLoginFragment">
 
     <fragment
         android:id="@+id/adminLoginFragment"
@@ -13,6 +13,12 @@
         <action
             android:id="@+id/action_adminLoginFragment_to_employeeFragment"
             app:destination="@id/employeeFragment" />
+        <action
+            android:id="@+id/action_adminLoginFragment_to_registerNewAdminFragment"
+            app:destination="@id/registerNewAdminFragment" />
+        <action
+            android:id="@+id/action_adminLoginFragment_to_forgotPassworrdFragment"
+            app:destination="@id/forgotPassworrdFragment" />
     </fragment>
     <fragment
         android:id="@+id/employeeFragment"
@@ -26,6 +32,19 @@
     <fragment
         android:id="@+id/addNewEmployeeFragment"
         android:name="com.flowz.byteworksjobtask.ui.addnewemployee.AddNewEmployeeFragment"
-        android:label="Add New Employees"
+        android:label="Add New Employee"
         tools:layout="@layout/fragment_add_new_employee" />
+    <fragment
+        android:id="@+id/registerNewAdminFragment"
+        android:name="com.flowz.byteworksjobtask.ui.authentication.RegisterNewAdminFragment"
+        android:label="Create Admin Account"
+        tools:layout="@layout/fragment_register_new_admin" >
+        <action
+            android:id="@+id/action_registerNewAdminFragment_to_adminLoginFragment"
+            app:destination="@id/adminLoginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/forgotPassworrdFragment"
+        android:name="com.flowz.byteworksjobtask.ui.authentication.ForgotPassworrdFragment"
+        android:label="Forgot Password" />
 </navigation>

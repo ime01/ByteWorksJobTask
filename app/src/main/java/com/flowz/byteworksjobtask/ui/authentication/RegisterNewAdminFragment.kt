@@ -1,11 +1,30 @@
 package com.flowz.byteworksjobtask.ui.authentication
 
 import android.os.Bundle
+import android.text.TextUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.datastore.core.DataStore
+import androidx.datastore.createDataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.preferencesKey
+import androidx.datastore.preferences.createDataStore
+import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import com.flowz.byteworksjobtask.Model.Admin
+import com.flowz.byteworksjobtask.Model.Employee
 import com.flowz.byteworksjobtask.R
+import com.flowz.byteworksjobtask.ui.addnewemployee.AddEmployeeViewModel
+import com.flowz.byteworksjobtask.ui.admin.AdminViewModel
+import com.flowz.byteworksjobtask.util.clearTexts
+import com.flowz.byteworksjobtask.util.showToast
+import com.flowz.byteworksjobtask.util.takeWords
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_register_new_admin.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -17,10 +36,15 @@ private const val ARG_PARAM2 = "param2"
  * Use the [RegisterNewAdminFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+
+@AndroidEntryPoint
 class RegisterNewAdminFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var dataStore : DataStore<Preferences>
+
+    private val adminViewModel by viewModels<AdminViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +61,81 @@ class RegisterNewAdminFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_register_new_admin, container, false)
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val navController : NavController = Navigation.findNavController(view)
+        dataStore = this.requireContext().createDataStore(name = "login")
+
+        register_new_admin.setOnClickListener {
+
+            if (TextUtils.isEmpty(rg_first_name.text.toString())){
+                rg_first_name.setError(getString(R.string.enter_valid_input))
+                return@setOnClickListener
+            } else if (TextUtils.isEmpty(rg_last_name.text.toString())){
+                rg_last_name.setError(getString(R.string.enter_valid_input))
+                return@setOnClickListener
+            } else if(TextUtils.isEmpty(rg_gender.text.toString())){
+                rg_gender.setError(getString(R.string.enter_valid_input))
+                return@setOnClickListener
+            }else if(TextUtils.isEmpty(rg_date_of_birth.text.toString())){
+                rg_date_of_birth.setError(getString(R.string.enter_valid_input))
+                return@setOnClickListener
+            }else if(TextUtils.isEmpty(rg_address.text.toString())){
+                rg_address.setError(getString(R.string.enter_valid_input))
+                return@setOnClickListener
+            }else if(TextUtils.isEmpty(rg_country.text.toString())){
+                rg_country.setError(getString(R.string.enter_valid_input))
+                return@setOnClickListener
+            }else if(TextUtils.isEmpty(rg_state.text.toString())){
+                rg_state.setError(getString(R.string.enter_valid_input))
+                return@setOnClickListener
+            }
+            else{
+
+                val newAdmin = Admin(
+                    rg_first_name.takeWords(),
+                    rg_last_name.takeWords(),
+                    true,
+                    rg_date_of_birth.takeWords(),
+                    null,
+                    rg_address.takeWords(),
+                    rg_country.takeWords(),
+                    rg_state.takeWords()
+                )
+
+
+                adminViewModel.insertAdmin(newAdmin)
+                showToast(getString(R.string.new_account_success), this.requireContext())
+
+                navController.navigate(R.id.action_registerNewAdminFragment_to_adminLoginFragment)
+
+//                val arrayOfViewsToClearAfterSavingEmployee = arrayOf(rg_first_name,rg_last_name,rg_date_of_birth, rg_address, rg_gender, rg_country, rg_state)
+
+//                clearTexts(arrayOfViewsToClearAfterSavingEmployee)
+            }
+
+        }
+
+        account_holder.setOnClickListener {
+            navController.navigate(R.id.action_registerNewAdminFragment_to_adminLoginFragment)
+        }
+    }
+
+    private suspend fun saveLoginInfo(key1: String, firstName: String, key2: String, lastName: String){
+
+        val dataStoreFirstNameKey = preferencesKey<String>(key1)
+        val dataStoreLastNameKey = preferencesKey<String>(key2)
+        dataStore.edit {login->
+            login[dataStoreFirstNameKey] = firstName
+            login[dataStoreLastNameKey] = lastName
+        }
+
+
+
+    }
+
 
     companion object {
         /**
