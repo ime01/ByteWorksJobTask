@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/adminLoginFragment"
-        android:name="com.flowz.byteworksjobtask.ui.AdminLoginFragment"
+        android:name="com.flowz.byteworksjobtask.ui.authentication.AdminLoginFragment"
         android:label="Admin Login"
         tools:layout="@layout/fragment_admin_login" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/employeeFragment"
-        android:name="com.flowz.byteworksjobtask.ui.EmployeeFragment"
+        android:name="com.flowz.byteworksjobtask.ui.employees.EmployeeFragment"
         android:label="Employees"
         tools:layout="@layout/fragment_employee" >
         <action
@@ -25,7 +25,7 @@
     </fragment>
     <fragment
         android:id="@+id/addNewEmployeeFragment"
-        android:name="com.flowz.byteworksjobtask.ui.AddNewEmployeeFragment"
+        android:name="com.flowz.byteworksjobtask.ui.addnewemployee.AddNewEmployeeFragment"
         android:label="Add New Employees"
         tools:layout="@layout/fragment_add_new_employee" />
 </navigation>

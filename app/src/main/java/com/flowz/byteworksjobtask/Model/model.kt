@@ -23,10 +23,10 @@ data class Admin (
 
 @Parcelize
 @Entity(tableName = "employee_table")
-data class Employee (
+data class Employee(
     val firstName: String? = null,
     val lastName: String? = null,
-    val  male: Boolean ? = null,
+    val male: Boolean? = null,
     val desgination: String? = null,
     val dateOfBirth: String? = null,
     val passPortPhoto: Int? = null,

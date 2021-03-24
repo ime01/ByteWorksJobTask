@@ -1,11 +1,10 @@
-package com.flowz.byteworksjobtask.ui
+package com.flowz.byteworksjobtask.ui.admin
 
 import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.flowz.byteworksjobtask.Model.Admin
-import com.flowz.byteworksjobtask.Model.Employee
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

@@ -57,8 +57,6 @@ class EmployeeAdapter  ()  :ListAdapter<Employee, EmployeeAdapter.OraNumViewHold
                 .fallback(R.drawable.ic_baseline_person_24)
                 .into(imageIcon)
 
-
-
 //            itemView.play_oraword.setOnClickListener {
 //                    listener.onPlayOraWordClickListener(employee)
 //            }

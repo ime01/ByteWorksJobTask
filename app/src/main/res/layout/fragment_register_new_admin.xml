@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.addnewemployee.AddNewEmployeeFragment">
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/frameLayout"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".ui.authentication.RegisterNewAdminFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/ne_textView2"
+        android:id="@+id/textView2"
         style="@style/TextLabel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="@dimen/textpadding"
-        android:text="@string/new_employee"
+        android:text="@string/register_admin"
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,22 +26,21 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.047" />
 
-        <ImageView
-            android:id="@+id/ne_passport_photo"
-            android:layout_width="@dimen/user_placeholder_dimen"
-            android:layout_height="@dimen/user_placeholder_dimen"
-            android:layout_marginTop="8dp"
-            android:contentDescription="@string/user_placholder_image"
-            android:src="@drawable/ic_baseline_person_24"
-            app:layout_constraintBottom_toTopOf="@id/ne_first_name"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.475"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ne_textView2"
-            app:layout_constraintVertical_bias="0.03" />
+    <ImageView
+        android:id="@+id/passport_photo"
+        android:layout_width="@dimen/user_placeholder_dimen"
+        android:layout_height="@dimen/user_placeholder_dimen"
+        android:contentDescription="@string/user_placholder_image"
+        android:src="@drawable/ic_baseline_person_24"
+        app:layout_constraintBottom_toTopOf="@id/rg_first_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.475"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView2"
+        app:layout_constraintVertical_bias="0.03" />
 
     <EditText
-        android:id="@+id/ne_first_name"
+        android:id="@+id/rg_first_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -51,10 +50,10 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ne_passport_photo" />
+        app:layout_constraintTop_toBottomOf="@+id/passport_photo" />
 
     <EditText
-        android:id="@+id/ne_last_name"
+        android:id="@+id/rg_last_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -64,10 +63,10 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ne_first_name"/>
+        app:layout_constraintTop_toBottomOf="@+id/rg_first_name"/>
 
     <EditText
-        android:id="@+id/ne_gender"
+        android:id="@+id/rg_gender"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -77,10 +76,10 @@
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ne_last_name" />
+        app:layout_constraintTop_toBottomOf="@+id/rg_last_name" />
 
     <EditText
-        android:id="@+id/ne_designation"
+        android:id="@+id/rg_designation"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -90,10 +89,10 @@
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ne_gender" />
+        app:layout_constraintTop_toBottomOf="@+id/rg_gender" />
 
     <EditText
-        android:id="@+id/ne_date_of_birth"
+        android:id="@+id/rg_date_of_birth"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -103,10 +102,10 @@
         android:padding="@dimen/textpadding"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ne_designation" />
+        app:layout_constraintTop_toBottomOf="@id/rg_designation" />
 
     <EditText
-        android:id="@+id/ne_address"
+        android:id="@+id/rg_address"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -116,10 +115,10 @@
         android:padding="@dimen/textpadding"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ne_date_of_birth" />
+        app:layout_constraintTop_toBottomOf="@id/rg_date_of_birth" />
 
     <EditText
-        android:id="@+id/ne_country"
+        android:id="@+id/rg_country"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -129,10 +128,10 @@
         android:padding="@dimen/textpadding"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ne_address" />
+        app:layout_constraintTop_toBottomOf="@id/rg_address" />
 
     <EditText
-        android:id="@+id/ne_state"
+        android:id="@+id/rg_state"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -142,17 +141,29 @@
         android:padding="@dimen/textpadding"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ne_country" />
+        app:layout_constraintTop_toBottomOf="@id/rg_country" />
 
     <Button
-        android:id="@+id/save_new_employee"
+        android:id="@+id/register_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/save_employee"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ne_state" />
+        app:layout_constraintTop_toBottomOf="@id/rg_state" />
+
+    <TextView
+        android:id="@+id/account_holder"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/account_holder"
+        android:gravity="center"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/register_user" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

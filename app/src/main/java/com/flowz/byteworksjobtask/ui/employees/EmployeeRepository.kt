@@ -1,4 +1,4 @@
-package com.flowz.byteworksjobtask.ui
+package com.flowz.byteworksjobtask.ui.employees
 
 import com.flowz.byteworksjobtask.Model.Employee
 import com.flowz.byteworksjobtask.roomdb.EmployeeDao

@@ -1,6 +1,5 @@
 package com.flowz.byteworksjobtask.roomdb
 
-import android.net.Uri
 import com.flowz.byteworksjobtask.Model.Admin
 import com.flowz.byteworksjobtask.Model.Employee
 import com.flowz.byteworksjobtask.R

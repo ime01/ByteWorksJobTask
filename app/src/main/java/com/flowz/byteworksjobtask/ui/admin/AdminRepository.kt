@@ -1,4 +1,4 @@
-package com.flowz.byteworksjobtask.ui
+package com.flowz.byteworksjobtask.ui.admin
 
 import com.flowz.byteworksjobtask.Model.Admin
 import com.flowz.byteworksjobtask.Model.Employee

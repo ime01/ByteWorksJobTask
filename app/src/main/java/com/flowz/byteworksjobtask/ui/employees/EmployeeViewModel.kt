@@ -1,4 +1,4 @@
-package com.flowz.byteworksjobtask.ui
+package com.flowz.byteworksjobtask.ui.employees
 
 import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
