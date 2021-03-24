@@ -5,6 +5,8 @@ An app made for my job recruitment test task to Byteworks(Abuja)
 
 App allows an Admin to register and login
 
+For now Admin can login with details  "first name"   and "last name", admin will be logged in, as these matches the defualt login strings
+
 A registered and logged in Admin can create and save Employee information
 
 App utilizes latest Android tech tools like
