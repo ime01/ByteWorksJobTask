@@ -13,7 +13,7 @@ class DummyDataSoure {
             Employee(
                 "Donald",
                 "Trump",
-            true,
+            "male",
             "President",
             "23/03/2021",
             R.drawable.p_trump,
@@ -28,7 +28,7 @@ class DummyDataSoure {
             Employee(
                 "Ronald",
                 "Regan",
-                true,
+                "male",
                 "President",
                 "23/03/2021",
                 R.drawable.p_regan,
@@ -43,7 +43,7 @@ class DummyDataSoure {
             Employee(
                 "George",
                 "Bush",
-                true,
+                "male",
                 "President",
                 "23/03/2021",
                 R.drawable.p_bush,
@@ -66,7 +66,7 @@ class DummyDataSoure {
             Admin(
                 "Donald",
                 "Trump",
-                true,
+                "male",
                 "President",
                 R.drawable.p_trump,
                 "White House",
@@ -80,7 +80,7 @@ class DummyDataSoure {
             Admin(
                 "Ronald",
                 "Regan",
-                true,
+                "male",
                 "President",
                 R.drawable.p_regan,
                 "White House",

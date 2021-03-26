@@ -43,11 +43,13 @@ tools:context=".ui.authentication.RegisterNewAdminFragment">
         android:id="@+id/rg_first_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginTop="16dp"
-        android:padding="@dimen/textpadding"
         android:ems="10"
         android:hint="@string/rg_name"
         android:inputType="textPersonName"
+        android:padding="@dimen/textpadding"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passport_photo" />
@@ -57,6 +59,8 @@ tools:context=".ui.authentication.RegisterNewAdminFragment">
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:ems="10"
         android:hint="@string/enter_last_name"
         android:padding="@dimen/textpadding"
@@ -65,19 +69,41 @@ tools:context=".ui.authentication.RegisterNewAdminFragment">
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rg_first_name"/>
 
-    <EditText
+    <RadioGroup
         android:id="@+id/rg_gender"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:padding="@dimen/textpadding"
-        android:ems="10"
-        android:hint="@string/enter_gender"
-        android:inputType="text"
+        android:paddingLeft ="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rg_last_name" />
+        app:layout_constraintTop_toBottomOf="@+id/rg_last_name" >
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="GENDER"
+            android:textStyle="bold"
+            android:paddingLeft ="8dp"
+            android:textColor="@color/black"
+            android:textSize="16sp"/>
+
+        <RadioButton
+            android:id="@+id/rg_male"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MALE"
+            android:textColor="@color/black"
+            android:textSize="14sp"/>
+        <RadioButton
+            android:id="@+id/rg_female"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FEMALE"
+            android:textColor="@color/black"
+            android:textSize="14sp"/>
+
+    </RadioGroup>
 
     <EditText
         android:id="@+id/rg_date_of_birth"
@@ -88,6 +114,8 @@ tools:context=".ui.authentication.RegisterNewAdminFragment">
         android:hint="@string/enter_birth_date"
         android:inputType="date"
         android:padding="@dimen/textpadding"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rg_gender" />
@@ -101,6 +129,8 @@ tools:context=".ui.authentication.RegisterNewAdminFragment">
         android:hint="@string/enter_address"
         android:inputType="text"
         android:padding="@dimen/textpadding"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rg_date_of_birth" />
@@ -114,6 +144,8 @@ tools:context=".ui.authentication.RegisterNewAdminFragment">
         android:hint="@string/enter_country"
         android:inputType="text"
         android:padding="@dimen/textpadding"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rg_address" />
@@ -127,6 +159,8 @@ tools:context=".ui.authentication.RegisterNewAdminFragment">
         android:hint="@string/enter_state"
         android:inputType="text"
         android:padding="@dimen/textpadding"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rg_country" />

@@ -43,7 +43,7 @@ class EmployeeAdapter  ()  :ListAdapter<Employee, EmployeeAdapter.OraNumViewHold
 
             itemView.first_name.text = employee.firstName
             itemView.last_name.text = employee.lastName
-            itemView.male.text = employee.male.toString()
+            itemView.male.text = employee.gender.toString()
             itemView.designation.text = employee.desgination.toString()
             itemView.date_of_birth.text = employee.dateOfBirth
             itemView.address.text = employee.address

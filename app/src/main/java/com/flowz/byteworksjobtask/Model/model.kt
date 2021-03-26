@@ -7,10 +7,10 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 @Entity(tableName = "admin_table")
-data class Admin (
+data class Admin(
     val firstName: String? = null,
     val lastName: String? = null,
-    val  male: Boolean ? = null,
+    val gender: String? = null,
     val dateOfBirth: String? = null,
     val passPortPhoto: Int? = null,
     val address: String? = null,
@@ -26,7 +26,7 @@ data class Admin (
 data class Employee(
     val firstName: String? = null,
     val lastName: String? = null,
-    val male: Boolean? = null,
+    val gender: String? = null,
     val desgination: String? = null,
     val dateOfBirth: String? = null,
     val passPortPhoto: Int? = null,

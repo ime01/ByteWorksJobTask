@@ -6,14 +6,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RadioGroup
 import androidx.fragment.app.viewModels
 import com.flowz.byteworksjobtask.Model.Employee
 import com.flowz.byteworksjobtask.R
 import com.flowz.byteworksjobtask.util.clearTexts
+import com.flowz.byteworksjobtask.util.showSnackbar
 import com.flowz.byteworksjobtask.util.showToast
 import com.flowz.byteworksjobtask.util.takeWords
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_add_new_employee.*
+import kotlinx.android.synthetic.main.fragment_register_new_admin.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -32,6 +35,7 @@ class AddNewEmployeeFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var gender : String
 
     private val addNewEmployeeViewModel by viewModels<AddEmployeeViewModel>()
 
@@ -54,6 +58,20 @@ class AddNewEmployeeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val rbG = view.findViewById<RadioGroup>(R.id.ne_gender) as RadioGroup
+
+        rbG.setOnCheckedChangeListener { group, checkedId ->
+
+            when(checkedId){
+                R.id.ne_male->{
+                    gender = ne_male.text.toString()
+                }
+                R.id.ne_female->{
+                    gender = ne_female.text.toString()
+                }
+            }
+        }
+
         save_new_employee.setOnClickListener {
 
             if (TextUtils.isEmpty(ne_first_name.text.toString())){
@@ -62,8 +80,8 @@ class AddNewEmployeeFragment : Fragment() {
             } else if (TextUtils.isEmpty(ne_last_name.text.toString())){
                 ne_last_name.setError(getString(R.string.enter_valid_input))
                 return@setOnClickListener
-            } else if(TextUtils.isEmpty(ne_gender.text.toString())){
-                ne_gender.setError(getString(R.string.enter_valid_input))
+            }  else if(!ne_male.isChecked && !ne_female.isChecked){
+                showToast(getString(R.string.choose_gender), this.requireContext())
                 return@setOnClickListener
             }else if(TextUtils.isEmpty(ne_designation.text.toString())){
                 ne_designation.setError(getString(R.string.enter_valid_input))
@@ -82,11 +100,10 @@ class AddNewEmployeeFragment : Fragment() {
                 return@setOnClickListener
             }
             else{
-
                 val newEmployee = Employee(
                     ne_first_name.takeWords(),
                     ne_last_name.takeWords(),
-                    true,
+                    gender,
                     ne_designation.takeWords(),
                     ne_date_of_birth.takeWords(),
                     null,
@@ -97,11 +114,12 @@ class AddNewEmployeeFragment : Fragment() {
 
 
                 addNewEmployeeViewModel.insertEmployee(newEmployee)
-                showToast(getString(R.string.new_employee_success), this.requireContext())
+                showSnackbar(ne_address, getString(R.string.new_account_success))
 
-                val arrayOfViewsToClearAfterSavingEmployee = arrayOf(ne_first_name,ne_last_name,ne_designation,ne_date_of_birth, ne_address, ne_gender, ne_country, ne_state)
-
+                val arrayOfViewsToClearAfterSavingEmployee = arrayOf(ne_first_name,ne_last_name,ne_designation,ne_date_of_birth, ne_address, ne_country, ne_state)
                 clearTexts(arrayOfViewsToClearAfterSavingEmployee)
+                ne_male.isChecked = false
+                ne_female.isChecked = false
             }
 
         }

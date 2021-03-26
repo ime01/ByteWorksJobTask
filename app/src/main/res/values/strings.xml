@@ -32,4 +32,5 @@
     <string name="firstname_error">Please enter your first name</string>
     <string name="lastname_error">Please enter your last name</string>
     <string name="create_admin">CREATE ADMIN ACCOUNT</string>
+    <string name="choose_gender">Ensure you have selected your gender</string>
 </resources>
