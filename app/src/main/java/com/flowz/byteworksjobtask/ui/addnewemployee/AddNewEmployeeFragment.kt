@@ -1,5 +1,10 @@
 package com.flowz.byteworksjobtask.ui.addnewemployee
 
+import android.app.Activity
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import androidx.fragment.app.Fragment
@@ -7,9 +12,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioGroup
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.viewModels
 import com.flowz.byteworksjobtask.Model.Employee
 import com.flowz.byteworksjobtask.R
+import com.flowz.byteworksjobtask.ui.authentication.RegisterNewAdminFragment
 import com.flowz.byteworksjobtask.util.clearTexts
 import com.flowz.byteworksjobtask.util.showSnackbar
 import com.flowz.byteworksjobtask.util.showToast
@@ -36,6 +43,7 @@ class AddNewEmployeeFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var gender : String
+    private var imageUri : Uri? = null
 
     private val addNewEmployeeViewModel by viewModels<AddEmployeeViewModel>()
 
@@ -72,6 +80,10 @@ class AddNewEmployeeFragment : Fragment() {
             }
         }
 
+        ne_select_passport.setOnClickListener {
+            checkPermssion()
+        }
+
         save_new_employee.setOnClickListener {
 
             if (TextUtils.isEmpty(ne_first_name.text.toString())){
@@ -98,6 +110,9 @@ class AddNewEmployeeFragment : Fragment() {
             }else if(TextUtils.isEmpty(ne_state.text.toString())){
                 ne_state.setError(getString(R.string.enter_valid_input))
                 return@setOnClickListener
+            }else if(imageUri == null){
+                ne_select_passport.setError(getString(R.string.choose_passport))
+                return@setOnClickListener
             }
             else{
                 val newEmployee = Employee(
@@ -106,7 +121,7 @@ class AddNewEmployeeFragment : Fragment() {
                     gender,
                     ne_designation.takeWords(),
                     ne_date_of_birth.takeWords(),
-                    null,
+                    imageUri,
                     ne_address.takeWords(),
                     ne_country.takeWords(),
                     ne_state.takeWords()
@@ -120,11 +135,62 @@ class AddNewEmployeeFragment : Fragment() {
                 clearTexts(arrayOfViewsToClearAfterSavingEmployee)
                 ne_male.isChecked = false
                 ne_female.isChecked = false
+                ne_passport_photo.setImageResource(R.drawable.ic_baseline_person_24)
             }
 
         }
 
     }
+
+    fun checkPermssion(){
+        if(Build.VERSION.SDK_INT>=23){
+            if (ActivityCompat.checkSelfPermission(this.requireActivity()
+                    ,android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+
+                requestPermissions(arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
+                    RegisterNewAdminFragment.READIMAGE
+                )
+                return
+            }
+        }
+        pickImage()
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        when(requestCode){
+            RegisterNewAdminFragment.READIMAGE ->{
+                if (grantResults[0]== PackageManager.PERMISSION_GRANTED){
+                    pickImage()
+                }else{
+                    showToast("Cannnot access your images",this.requireContext() )
+                }
+            }else-> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        }
+
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == RegisterNewAdminFragment.REQUESTCODE && resultCode == Activity.RESULT_OK && data!!.data != null ){
+
+            imageUri = data.data
+            ne_passport_photo.setImageURI(imageUri)
+            showSnackbar(ne_address, "Profile passport selected for upload....")
+
+        }
+    }
+
+
+    private fun pickImage() {
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+
+        startActivityForResult(intent, RegisterNewAdminFragment.REQUESTCODE)
+    }
+
 
 
     companion object {
@@ -137,6 +203,9 @@ class AddNewEmployeeFragment : Fragment() {
          * @return A new instance of fragment AddNewEmployeeFragment.
          */
         // TODO: Rename and change types and number of parameters
+        val READIMAGE = 255
+        val REQUESTCODE = 100
+
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             AddNewEmployeeFragment()

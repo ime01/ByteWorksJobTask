@@ -33,4 +33,6 @@
     <string name="lastname_error">Please enter your last name</string>
     <string name="create_admin">CREATE ADMIN ACCOUNT</string>
     <string name="choose_gender">Ensure you have selected your gender</string>
+    <string name="select_image">Select Passport</string>
+    <string name="choose_passport">Ensure to Choose Passport Photo</string>
 </resources>

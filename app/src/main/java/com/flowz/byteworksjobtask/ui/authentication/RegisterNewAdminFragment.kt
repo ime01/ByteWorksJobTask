@@ -1,5 +1,10 @@
 package com.flowz.byteworksjobtask.ui.authentication
 
+import android.app.Activity
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import androidx.fragment.app.Fragment
@@ -7,7 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioGroup
-import androidx.datastore.preferences.core.preferencesKey
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -18,6 +23,7 @@ import com.flowz.byteworksjobtask.util.showSnackbar
 import com.flowz.byteworksjobtask.util.showToast
 import com.flowz.byteworksjobtask.util.takeWords
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_add_new_employee.*
 import kotlinx.android.synthetic.main.fragment_register_new_admin.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -36,8 +42,9 @@ class RegisterNewAdminFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-//    private lateinit var dataStore : DataStore<Preferences>
+
     private lateinit var gender : String
+    private var imageUri : Uri? = null
 
     private val adminViewModel by viewModels<AdminViewModel>()
 
@@ -77,6 +84,10 @@ class RegisterNewAdminFragment : Fragment() {
             }
         }
 
+        rg_select_passport.setOnClickListener {
+            checkPermssion()
+        }
+
         register_new_admin.setOnClickListener {
 
             if (TextUtils.isEmpty(rg_first_name.text.toString())){
@@ -100,6 +111,9 @@ class RegisterNewAdminFragment : Fragment() {
             }else if(TextUtils.isEmpty(rg_state.text.toString())){
                 rg_state.setError(getString(R.string.enter_valid_input))
                 return@setOnClickListener
+            }else if(imageUri == null){
+                rg_select_passport.setError(getString(R.string.choose_passport))
+                return@setOnClickListener
             }
             else{
 
@@ -108,7 +122,7 @@ class RegisterNewAdminFragment : Fragment() {
                     rg_last_name.takeWords(),
                     gender,
                     rg_date_of_birth.takeWords(),
-                    null,
+                    imageUri,
                     rg_address.takeWords(),
                     rg_country.takeWords(),
                     rg_state.takeWords()
@@ -132,18 +146,57 @@ class RegisterNewAdminFragment : Fragment() {
         }
     }
 
-//    private suspend fun saveLoginInfo(key1: String, firstName: String, key2: String, lastName: String){
-//
-//        val dataStoreFirstNameKey = preferencesKey<String>(key1)
-//        val dataStoreLastNameKey = preferencesKey<String>(key2)
-//        dataStore.edit {login->
-//            login[dataStoreFirstNameKey] = firstName
-//            login[dataStoreLastNameKey] = lastName
-//        }
 
 
 
 //    }
+
+    fun checkPermssion(){
+        if(Build.VERSION.SDK_INT>=23){
+            if (ActivityCompat.checkSelfPermission(this.requireActivity()
+                    ,android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+
+                requestPermissions(arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), READIMAGE)
+                return
+            }
+        }
+        pickImage()
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        when(requestCode){
+            READIMAGE->{
+                if (grantResults[0]== PackageManager.PERMISSION_GRANTED){
+                    pickImage()
+                }else{
+                    showToast("Cannnot access your images",this.requireContext() )
+                }
+            }else-> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        }
+
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == REQUESTCODE && resultCode == Activity.RESULT_OK && data!!.data != null ){
+
+            imageUri = data.data
+            passport_photo.setImageURI(imageUri)
+            showSnackbar(rg_address, "Profile passport selected for upload....")
+
+        }
+    }
+
+
+    private fun pickImage() {
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+
+        startActivityForResult(intent, REQUESTCODE )
+    }
 
 
     companion object {
@@ -156,6 +209,9 @@ class RegisterNewAdminFragment : Fragment() {
          * @return A new instance of fragment RegisterNewAdminFragment.
          */
         // TODO: Rename and change types and number of parameters
+            val READIMAGE = 253
+            val REQUESTCODE = 101
+
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             RegisterNewAdminFragment().apply {

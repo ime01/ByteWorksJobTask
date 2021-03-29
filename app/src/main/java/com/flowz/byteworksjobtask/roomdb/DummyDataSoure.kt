@@ -16,7 +16,7 @@ class DummyDataSoure {
             "male",
             "President",
             "23/03/2021",
-            R.drawable.p_trump,
+            null,
             "White House",
         "USA",
             "Washington"
@@ -31,7 +31,7 @@ class DummyDataSoure {
                 "male",
                 "President",
                 "23/03/2021",
-                R.drawable.p_regan,
+                null,
                 "White House",
                 "USA",
                 "Washington"
@@ -46,7 +46,7 @@ class DummyDataSoure {
                 "male",
                 "President",
                 "23/03/2021",
-                R.drawable.p_bush,
+                null,
                 "White House",
                 "USA",
                 "Washington"
@@ -68,7 +68,7 @@ class DummyDataSoure {
                 "Trump",
                 "male",
                 "President",
-                R.drawable.p_trump,
+                null,
                 "White House",
                 "USA",
                 "Washington"
@@ -82,7 +82,7 @@ class DummyDataSoure {
                 "Regan",
                 "male",
                 "President",
-                R.drawable.p_regan,
+                null,
                 "White House",
                 "USA",
                 "Washington"
