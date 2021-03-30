@@ -13,6 +13,8 @@ App utilizes latest Android tech tools like
 
 Dagger Hilt for Dependency Injection
 
+DataStore
+
 Room DataBase
 
 JetPack Navigation 
