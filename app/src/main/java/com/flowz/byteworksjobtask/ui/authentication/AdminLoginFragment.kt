@@ -8,6 +8,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.preferencesKey
+import androidx.datastore.preferences.createDataStore
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.flowz.byteworksjobtask.R
@@ -16,6 +21,8 @@ import com.flowz.byteworksjobtask.util.showSnackbar
 import com.flowz.byteworksjobtask.util.takeWords
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_admin_login.*
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.first
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -32,7 +39,9 @@ class AdminLoginFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    lateinit var sharedPreferences: SharedPreferences
+    private lateinit var dataStore: DataStore<Preferences>
+    private lateinit var readFirstName: String
+    private lateinit var readPasswordName: String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,9 +63,14 @@ class AdminLoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        sharedPreferences = requireContext().getSharedPreferences("SAVED_PREFS", Context.MODE_PRIVATE)
+        dataStore = requireContext().createDataStore(name = "LOGIN")
         playAnimation(this.requireContext(), R.anim.bounce, person )
         val navController : NavController = Navigation.findNavController(view)
+
+        lifecycleScope.launch {
+            readFirstName = ReadLoginInfo(FIRSTNAME)!!
+            readPasswordName = ReadLoginInfo(PASSWORD)!!
+        }
 
 
        ad_admin_login.setOnClickListener {
@@ -71,16 +85,11 @@ class AdminLoginFragment : Fragment() {
                 return@setOnClickListener
             }else{
 
-                val firstName = sharedPreferences.getString(FIRSTNAME, "")
-                val password = sharedPreferences.getString(PASSWORD, "")
-
-                if (lg_first_name.takeWords() == firstName && lg_password.takeWords() == password){
+                if (lg_first_name.takeWords() == readFirstName &&  lg_password.takeWords() == readPasswordName){
                     navController.navigate(R.id.action_adminLoginFragment_to_employeeFragment)
                 }else{
                     showSnackbar(lg_first_name, getString(R.string.correct_details))
                 }
-
-
 
             }
         }
@@ -92,6 +101,13 @@ class AdminLoginFragment : Fragment() {
             navController.navigate(R.id.action_adminLoginFragment_to_forgotPassworrdFragment)
         }
     }
+
+    private suspend fun ReadLoginInfo(key:String): String?{
+        val dataStorekey = preferencesKey<String>(key)
+        val preferences = dataStore.data.first()
+        return preferences[dataStorekey]
+    }
+
 
 
     companion object {

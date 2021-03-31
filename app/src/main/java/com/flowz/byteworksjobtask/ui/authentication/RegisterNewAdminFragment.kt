@@ -15,7 +15,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioGroup
 import androidx.core.app.ActivityCompat
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.preferencesKey
+import androidx.datastore.preferences.createDataStore
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.flowz.byteworksjobtask.Model.Admin
@@ -27,6 +33,8 @@ import com.flowz.byteworksjobtask.util.takeWords
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_add_new_employee.*
 import kotlinx.android.synthetic.main.fragment_register_new_admin.*
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -47,7 +55,7 @@ class RegisterNewAdminFragment : Fragment() {
 
     private lateinit var gender : String
     private var imageUri : Uri? = null
-    lateinit var sharedPreferences: SharedPreferences
+    private lateinit var dataStore: DataStore<Preferences>
 
     private val adminViewModel by viewModels<AdminViewModel>()
 
@@ -71,11 +79,11 @@ class RegisterNewAdminFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val navController : NavController = Navigation.findNavController(view)
-        sharedPreferences = requireContext().getSharedPreferences("SAVED_PREFS", Context.MODE_PRIVATE)
+//        sharedPreferences = requireContext().getSharedPreferences("SAVED_PREFS", Context.MODE_PRIVATE)
+        dataStore = requireContext().createDataStore(name = "LOGIN")
+
 
         val rbG = view.findViewById<RadioGroup>(R.id.rg_gender) as RadioGroup
-
-
         rbG.setOnCheckedChangeListener { group, checkedId ->
             when(checkedId){
                 R.id.rg_male->{
@@ -125,14 +133,13 @@ class RegisterNewAdminFragment : Fragment() {
                 return@setOnClickListener
             }
             else{
-
                 val firstName = rg_first_name.takeWords()
                 val password = rg_password.takeWords()
 
-                val editor = sharedPreferences.edit()
-                editor.putString(FIRSTNAME, firstName)
-                editor.putString(PASSWORD, password)
-                editor.apply()
+                lifecycleScope.launch{
+                    saveLoginInfo(FIRSTNAME, firstName, PASSWORD, password)
+                }
+
 
                 val newAdmin = Admin(
                     rg_first_name.takeWords(),
@@ -151,9 +158,6 @@ class RegisterNewAdminFragment : Fragment() {
 
                 navController.navigate(R.id.action_registerNewAdminFragment_to_adminLoginFragment)
 
-//                val arrayOfViewsToClearAfterSavingEmployee = arrayOf(rg_first_name,rg_last_name,rg_date_of_birth, rg_address, rg_gender, rg_country, rg_state)
-
-//                clearTexts(arrayOfViewsToClearAfterSavingEmployee)
             }
 
         }
@@ -161,6 +165,17 @@ class RegisterNewAdminFragment : Fragment() {
         account_holder.setOnClickListener {
             navController.navigate(R.id.action_registerNewAdminFragment_to_adminLoginFragment)
         }
+    }
+
+    private suspend fun saveLoginInfo(firstNamekey:String, firstNameValue:String, passwordkey:String, passWordValue:String){
+        val firstNameDataStorekey = preferencesKey<String>(firstNamekey)
+        val passwordDataStorekey = preferencesKey<String>(passwordkey)
+
+        dataStore.edit {login->
+            login[firstNameDataStorekey] = firstNameValue
+            login[passwordDataStorekey] = passWordValue
+        }
+
     }
 
 

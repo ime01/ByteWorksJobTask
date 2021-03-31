@@ -91,6 +91,7 @@ dependencies {
 
 //    Shared Preference datastore
     implementation 'androidx.preference:preference:1.1.1'
+    implementation 'androidx.datastore:datastore-preferences:1.0.0-alpha04'
 
 //  Room Datatbase
     implementation "androidx.room:room-runtime:$version_room"
