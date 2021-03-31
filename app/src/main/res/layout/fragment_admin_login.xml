@@ -42,14 +42,14 @@
             app:layout_constraintTop_toBottomOf="@+id/text_view2" />
 
         <EditText
-            android:id="@+id/lg_last_name"
+            android:id="@+id/lg_password"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:ems="10"
-            android:hint="@string/enter_last_name"
+            android:hint="@string/enter_password"
             android:inputType="textPassword"
             android:padding="@dimen/textpadding"
             app:layout_constraintEnd_toEndOf="parent"
@@ -57,14 +57,14 @@
             app:layout_constraintTop_toBottomOf="@+id/lg_first_name" />
 
         <Button
-            android:id="@+id/admin_login"
+            android:id="@+id/ad_admin_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/login"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lg_last_name" />
+            app:layout_constraintTop_toBottomOf="@+id/ad_checkBox" />
 
         <TextView
             android:id="@+id/no_account"
@@ -78,7 +78,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/admin_login" />
+            app:layout_constraintTop_toBottomOf="@+id/ad_admin_login" />
 
 
         <TextView
@@ -106,6 +106,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/byteworks1" />
+
+        <CheckBox
+            android:id="@+id/ad_checkBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/remember_me"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.132"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lg_password"
+            app:layout_constraintVertical_bias="0.285" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

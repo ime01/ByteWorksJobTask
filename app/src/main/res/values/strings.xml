@@ -5,15 +5,15 @@
     <string name="add_new">add new employee</string>
     <string name="user_placholder_image">placeholder Image</string>
     <string name="register_admin">Enter your details to register as an admin</string>
-    <string name="rg_name">enter your first name</string>
-    <string name="enter_last_name">enter your last name</string>
-    <string name="enter_gender">enter  your gender</string>
-    <string name="enter_designation">enter your job designation</string>
-    <string name="enter_birth_date">enter your date of birth</string>
+    <string name="rg_name">Enter your first name</string>
+    <string name="enter_last_name">Enter your last name</string>
+    <string name="enter_gender">Enter  your gender</string>
+    <string name="enter_designation">Enter your job designation</string>
+    <string name="enter_birth_date">Enter your date of birth</string>
     <string name="account_holder">Already a registred Admin? then just Login Here</string>
-    <string name="enter_address">enter address</string>
-    <string name="enter_country">enter your country</string>
-    <string name="enter_state">enter state</string>
+    <string name="enter_address">Enter address</string>
+    <string name="enter_country">Enter your country</string>
+    <string name="enter_state">Enter state</string>
     <string name="save_employee">save employee</string>
     <string name="new_employee">Enter details to create new employee</string>
     <string name="enter_valid_input">Ensure you have entered Valid Inputs</string>
@@ -35,4 +35,6 @@
     <string name="choose_gender">Ensure you have selected your gender</string>
     <string name="select_image">Select Passport</string>
     <string name="choose_passport">Ensure to Choose Passport Photo</string>
+    <string name="remember_me">Remember Me</string>
+    <string name="enter_password">Enter your password</string>
 </resources>

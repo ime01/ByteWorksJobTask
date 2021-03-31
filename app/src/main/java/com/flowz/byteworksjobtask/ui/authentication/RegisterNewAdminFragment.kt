@@ -1,7 +1,9 @@
 package com.flowz.byteworksjobtask.ui.authentication
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
@@ -45,6 +47,7 @@ class RegisterNewAdminFragment : Fragment() {
 
     private lateinit var gender : String
     private var imageUri : Uri? = null
+    lateinit var sharedPreferences: SharedPreferences
 
     private val adminViewModel by viewModels<AdminViewModel>()
 
@@ -68,8 +71,10 @@ class RegisterNewAdminFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val navController : NavController = Navigation.findNavController(view)
-//        dataStore = this.requireContext().createDataStore(name = "login")
+        sharedPreferences = requireContext().getSharedPreferences("SAVED_PREFS", Context.MODE_PRIVATE)
+
         val rbG = view.findViewById<RadioGroup>(R.id.rg_gender) as RadioGroup
+
 
         rbG.setOnCheckedChangeListener { group, checkedId ->
             when(checkedId){
@@ -88,6 +93,7 @@ class RegisterNewAdminFragment : Fragment() {
             checkPermssion()
         }
 
+
         register_new_admin.setOnClickListener {
 
             if (TextUtils.isEmpty(rg_first_name.text.toString())){
@@ -95,6 +101,9 @@ class RegisterNewAdminFragment : Fragment() {
                 return@setOnClickListener
             } else if (TextUtils.isEmpty(rg_last_name.text.toString())){
                 rg_last_name.setError(getString(R.string.enter_valid_input))
+                return@setOnClickListener
+            }else if (TextUtils.isEmpty(rg_password.text.toString())){
+                rg_password.setError(getString(R.string.enter_valid_input))
                 return@setOnClickListener
             } else if(!rg_male.isChecked && !rg_female.isChecked){
                 showToast(getString(R.string.choose_gender), this.requireContext())
@@ -116,6 +125,14 @@ class RegisterNewAdminFragment : Fragment() {
                 return@setOnClickListener
             }
             else{
+
+                val firstName = rg_first_name.takeWords()
+                val password = rg_password.takeWords()
+
+                val editor = sharedPreferences.edit()
+                editor.putString(FIRSTNAME, firstName)
+                editor.putString(PASSWORD, password)
+                editor.apply()
 
                 val newAdmin = Admin(
                     rg_first_name.takeWords(),
@@ -211,6 +228,8 @@ class RegisterNewAdminFragment : Fragment() {
         // TODO: Rename and change types and number of parameters
             val READIMAGE = 253
             val REQUESTCODE = 101
+            val FIRSTNAME = "FIRSTNAME"
+            val PASSWORD = "PASSWORD"
 
         @JvmStatic
         fun newInstance(param1: String, param2: String) =

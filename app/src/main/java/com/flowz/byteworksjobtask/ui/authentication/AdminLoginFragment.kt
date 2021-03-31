@@ -1,15 +1,13 @@
 package com.flowz.byteworksjobtask.ui.authentication
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.TextUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.preferencesKey
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.flowz.byteworksjobtask.R
@@ -34,6 +32,8 @@ class AdminLoginFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    lateinit var sharedPreferences: SharedPreferences
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,22 +54,27 @@ class AdminLoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        sharedPreferences = requireContext().getSharedPreferences("SAVED_PREFS", Context.MODE_PRIVATE)
         playAnimation(this.requireContext(), R.anim.bounce, person )
         val navController : NavController = Navigation.findNavController(view)
 
-        admin_login.setOnClickListener {
+
+       ad_admin_login.setOnClickListener {
 
             if (TextUtils.isEmpty(lg_first_name.text.toString())){
                 lg_first_name.setError(getString(R.string.firstname_error))
                 return@setOnClickListener
             }
 
-            else if (TextUtils.isEmpty(lg_last_name.text.toString())){
-                lg_last_name.setError(getString(R.string.lastname_error))
+            else if (TextUtils.isEmpty(lg_password.text.toString())){
+                lg_password.setError(getString(R.string.lastname_error))
                 return@setOnClickListener
             }else{
 
-                if (lg_first_name.takeWords() == "first name" && lg_last_name.takeWords() == "last name"){
+                val firstName = sharedPreferences.getString(FIRSTNAME, "")
+                val password = sharedPreferences.getString(PASSWORD, "")
+
+                if (lg_first_name.takeWords() == firstName && lg_password.takeWords() == password){
                     navController.navigate(R.id.action_adminLoginFragment_to_employeeFragment)
                 }else{
                     showSnackbar(lg_first_name, getString(R.string.correct_details))
@@ -99,6 +104,10 @@ class AdminLoginFragment : Fragment() {
          * @return A new instance of fragment AdminLoginFragment.
          */
         // TODO: Rename and change types and number of parameters
+
+        val FIRSTNAME = "FIRSTNAME"
+        val PASSWORD = "PASSWORD"
+
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             AdminLoginFragment().apply {

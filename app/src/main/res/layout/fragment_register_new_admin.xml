@@ -22,9 +22,10 @@ tools:context=".ui.authentication.RegisterNewAdminFragment">
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.047" />
+        app:layout_constraintVertical_bias="0.02" />
 
     <ImageView
         android:id="@+id/passport_photo"
@@ -54,8 +55,8 @@ tools:context=".ui.authentication.RegisterNewAdminFragment">
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="@string/rg_name"
         android:inputType="textPersonName"
@@ -79,6 +80,21 @@ tools:context=".ui.authentication.RegisterNewAdminFragment">
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rg_first_name"/>
 
+    <EditText
+        android:id="@+id/rg_password"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:hint="@string/enter_password"
+        android:padding="@dimen/textpadding"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rg_last_name"/>
+
     <RadioGroup
         android:id="@+id/rg_gender"
         android:layout_width="0dp"
@@ -87,7 +103,7 @@ tools:context=".ui.authentication.RegisterNewAdminFragment">
         android:paddingLeft ="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rg_last_name" >
+        app:layout_constraintTop_toBottomOf="@+id/rg_password" >
 
         <TextView
             android:layout_width="match_parent"
