@@ -1,29 +1,32 @@
 package com.flowz.byteworksjobtask.ui.addnewemployee
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.TextUtils
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.RadioGroup
 import androidx.core.app.ActivityCompat
+import androidx.core.net.toUri
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.flowz.byteworksjobtask.Model.Employee
 import com.flowz.byteworksjobtask.R
 import com.flowz.byteworksjobtask.ui.authentication.RegisterNewAdminFragment
-import com.flowz.byteworksjobtask.util.clearTexts
-import com.flowz.byteworksjobtask.util.showSnackbar
-import com.flowz.byteworksjobtask.util.showToast
-import com.flowz.byteworksjobtask.util.takeWords
+import com.flowz.byteworksjobtask.util.*
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_add_new_employee.*
-import kotlinx.android.synthetic.main.fragment_register_new_admin.*
+import java.io.ByteArrayOutputStream
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -81,7 +84,32 @@ class AddNewEmployeeFragment : Fragment() {
         }
 
         ne_select_passport.setOnClickListener {
-            checkPermssion()
+            val layoutInflater = LayoutInflater.from(this.context)
+            val alertView = layoutInflater.inflate(R.layout.camera_or_gallery_alert_dialog, null)
+
+            val alertDialog = MaterialAlertDialogBuilder(requireContext())
+            alertDialog.setView(alertView)
+            alertDialog.setTitle(getString(R.string.choose_image))
+            alertDialog.setCancelable(false)
+            val dialog = alertDialog.create()
+
+            val openCameraImage = alertView.findViewById<ImageView>(R.id.rg_open_camera)
+            val openGalleryImage = alertView.findViewById<ImageView>(R.id.open_gallery)
+
+
+            dialog.show()
+
+            openCameraImage.setOnClickListener {
+                checkPermssion()
+                openCamera()
+                dialog.dismiss()
+            }
+
+            openGalleryImage.setOnClickListener {
+                checkPermssion()
+                pickImageFromGallery()
+                dialog.dismiss()
+            }
         }
 
         save_new_employee.setOnClickListener {
@@ -153,14 +181,13 @@ class AddNewEmployeeFragment : Fragment() {
                 return
             }
         }
-        pickImage()
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         when(requestCode){
             RegisterNewAdminFragment.READIMAGE ->{
                 if (grantResults[0]== PackageManager.PERMISSION_GRANTED){
-                    pickImage()
+                    pickImageFromGallery()
                 }else{
                     showToast("Cannnot access your images",this.requireContext() )
                 }
@@ -173,24 +200,34 @@ class AddNewEmployeeFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == RegisterNewAdminFragment.REQUESTCODE && resultCode == Activity.RESULT_OK && data!!.data != null ){
+        if (requestCode == REQUESTCODE && resultCode == Activity.RESULT_OK && data!!.data != null ){
 
             imageUri = data.data
             ne_passport_photo.setImageURI(imageUri)
-            showSnackbar(ne_address, "Profile passport selected for upload....")
+            showSnackbar(ne_passport_photo, "Profile passport selected for upload....")
+        }
+        else if (requestCode == RegisterNewAdminFragment.IMAGECAPUTRECODE && resultCode == Activity.RESULT_OK){
+
+            val rgPhoto = data!!.extras?.get("data") as Bitmap
+            ne_passport_photo.setImageBitmap(rgPhoto)
+
+            imageUri = getImageUri(requireContext(), rgPhoto)
 
         }
     }
 
 
-    private fun pickImage() {
+    private fun pickImageFromGallery() {
         val intent = Intent()
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
-
-        startActivityForResult(intent, RegisterNewAdminFragment.REQUESTCODE)
+        startActivityForResult(intent, REQUESTCODE)
     }
 
+    private fun openCamera() {
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        startActivityForResult(intent, RegisterNewAdminFragment.IMAGECAPUTRECODE)
+    }
 
 
     companion object {
@@ -205,6 +242,7 @@ class AddNewEmployeeFragment : Fragment() {
         // TODO: Rename and change types and number of parameters
         val READIMAGE = 255
         val REQUESTCODE = 100
+        val IMAGECAPUTRECODE = 400
 
         @JvmStatic
         fun newInstance(param1: String, param2: String) =

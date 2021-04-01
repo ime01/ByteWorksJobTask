@@ -37,4 +37,7 @@
     <string name="choose_passport">Ensure to Choose Passport Photo</string>
     <string name="remember_me">Remember Me</string>
     <string name="enter_password">Enter your password</string>
+    <string name="open_camera">Open Camera</string>
+    <string name="choose_from_gallery">Choose from Gallery</string>
+    <string name="choose_image">Choose Image</string>
 </resources>

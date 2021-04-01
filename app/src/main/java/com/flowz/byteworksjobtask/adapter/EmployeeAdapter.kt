@@ -34,19 +34,19 @@ class EmployeeAdapter  ()  :ListAdapter<Employee, EmployeeAdapter.OraNumViewHold
 
     class OraNumViewHolder(view: View): RecyclerView.ViewHolder(view){
 
-        val play = itemView.findViewById<ImageView>(R.id.passport_photo)
+        val play = itemView.findViewById<ImageView>(R.id.reg_passport_photo)
 
         fun bind(employee: Employee){
 
-            val imageIcon = itemView.passport_photo
+            val imageIcon = itemView.reg_passport_photo
             val imageUri = employee.passPortPhoto
 
             itemView.first_name.text = employee.firstName
             itemView.last_name.text = employee.lastName
-            itemView.male.text = employee.gender.toString()
-            itemView.designation.text = employee.desgination.toString()
-            itemView.date_of_birth.text = employee.dateOfBirth
-            itemView.address.text = employee.address
+//            itemView.male.text = employee.gender.toString()
+//            itemView.designation.text = employee.desgination.toString()
+//            itemView.date_of_birth.text = employee.dateOfBirth
+//            itemView.address.text = employee.address
             itemView.country.text = employee.country
 
             Glide.with(imageIcon)

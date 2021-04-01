@@ -1,20 +1,22 @@
 package com.flowz.byteworksjobtask.ui.authentication
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.TextUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.RadioGroup
 import androidx.core.app.ActivityCompat
+import androidx.core.net.toUri
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
@@ -27,13 +29,13 @@ import androidx.navigation.Navigation
 import com.flowz.byteworksjobtask.Model.Admin
 import com.flowz.byteworksjobtask.R
 import com.flowz.byteworksjobtask.ui.admin.AdminViewModel
+import com.flowz.byteworksjobtask.util.getImageUri
 import com.flowz.byteworksjobtask.util.showSnackbar
 import com.flowz.byteworksjobtask.util.showToast
 import com.flowz.byteworksjobtask.util.takeWords
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_add_new_employee.*
 import kotlinx.android.synthetic.main.fragment_register_new_admin.*
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 // TODO: Rename parameter arguments, choose names that match
@@ -79,7 +81,6 @@ class RegisterNewAdminFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val navController : NavController = Navigation.findNavController(view)
-//        sharedPreferences = requireContext().getSharedPreferences("SAVED_PREFS", Context.MODE_PRIVATE)
         dataStore = requireContext().createDataStore(name = "LOGIN")
 
 
@@ -98,7 +99,32 @@ class RegisterNewAdminFragment : Fragment() {
         }
 
         rg_select_passport.setOnClickListener {
-            checkPermssion()
+            val layoutInflater = LayoutInflater.from(this.context)
+            val alertView = layoutInflater.inflate(R.layout.camera_or_gallery_alert_dialog, null)
+
+            val alertDialog = MaterialAlertDialogBuilder(requireContext())
+            alertDialog.setView(alertView)
+            alertDialog.setTitle(getString(R.string.choose_image))
+            alertDialog.setCancelable(false)
+            val dialog = alertDialog.create()
+
+            val openCameraImage = alertView.findViewById<ImageView>(R.id.rg_open_camera)
+            val openGalleryImage = alertView.findViewById<ImageView>(R.id.open_gallery)
+
+
+            dialog.show()
+
+            openCameraImage.setOnClickListener {
+                checkPermssion()
+                openCamera()
+                dialog.dismiss()
+            }
+
+            openGalleryImage.setOnClickListener {
+                checkPermssion()
+                pickImageFromGallery()
+                dialog.dismiss()
+            }
         }
 
 
@@ -122,11 +148,11 @@ class RegisterNewAdminFragment : Fragment() {
             }else if(TextUtils.isEmpty(rg_address.text.toString())){
                 rg_address.setError(getString(R.string.enter_valid_input))
                 return@setOnClickListener
-            }else if(TextUtils.isEmpty(rg_country.text.toString())){
-                rg_country.setError(getString(R.string.enter_valid_input))
+            }else if(TextUtils.isEmpty(rg_country_spinner.text.toString())){
+                rg_country_spinner.setError(getString(R.string.enter_valid_input))
                 return@setOnClickListener
-            }else if(TextUtils.isEmpty(rg_state.text.toString())){
-                rg_state.setError(getString(R.string.enter_valid_input))
+            }else if(TextUtils.isEmpty(rg_state_spinner.text.toString())){
+                rg_state_spinner.setError(getString(R.string.enter_valid_input))
                 return@setOnClickListener
             }else if(imageUri == null){
                 rg_select_passport.setError(getString(R.string.choose_passport))
@@ -140,7 +166,6 @@ class RegisterNewAdminFragment : Fragment() {
                     saveLoginInfo(FIRSTNAME, firstName, PASSWORD, password)
                 }
 
-
                 val newAdmin = Admin(
                     rg_first_name.takeWords(),
                     rg_last_name.takeWords(),
@@ -148,8 +173,8 @@ class RegisterNewAdminFragment : Fragment() {
                     rg_date_of_birth.takeWords(),
                     imageUri,
                     rg_address.takeWords(),
-                    rg_country.takeWords(),
-                    rg_state.takeWords()
+                    rg_country_spinner.takeWords(),
+                    rg_state_spinner.takeWords()
                 )
 
 
@@ -192,14 +217,13 @@ class RegisterNewAdminFragment : Fragment() {
                 return
             }
         }
-        pickImage()
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         when(requestCode){
             READIMAGE->{
                 if (grantResults[0]== PackageManager.PERMISSION_GRANTED){
-                    pickImage()
+                    pickImageFromGallery()
                 }else{
                     showToast("Cannnot access your images",this.requireContext() )
                 }
@@ -215,19 +239,28 @@ class RegisterNewAdminFragment : Fragment() {
         if (requestCode == REQUESTCODE && resultCode == Activity.RESULT_OK && data!!.data != null ){
 
             imageUri = data.data
-            passport_photo.setImageURI(imageUri)
+            reg_passport_photo.setImageURI(imageUri)
             showSnackbar(rg_address, "Profile passport selected for upload....")
+        }
+        else if (requestCode == IMAGECAPUTRECODE && resultCode == Activity.RESULT_OK){
 
+            val rgPhoto = data!!.extras?.get("data") as Bitmap
+            reg_passport_photo.setImageBitmap(rgPhoto)
+            imageUri = getImageUri(requireContext(), rgPhoto)
         }
     }
 
 
-    private fun pickImage() {
+    private fun pickImageFromGallery() {
         val intent = Intent()
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
-
         startActivityForResult(intent, REQUESTCODE )
+    }
+
+    private fun openCamera() {
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        startActivityForResult(intent, IMAGECAPUTRECODE )
     }
 
 
@@ -243,6 +276,7 @@ class RegisterNewAdminFragment : Fragment() {
         // TODO: Rename and change types and number of parameters
             val READIMAGE = 253
             val REQUESTCODE = 101
+            val IMAGECAPUTRECODE = 400
             val FIRSTNAME = "FIRSTNAME"
             val PASSWORD = "PASSWORD"
 

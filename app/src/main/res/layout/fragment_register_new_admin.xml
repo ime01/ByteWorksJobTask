@@ -22,13 +22,12 @@ tools:context=".ui.authentication.RegisterNewAdminFragment">
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.02" />
+        app:layout_constraintVertical_bias="0.047" />
 
     <ImageView
-        android:id="@+id/passport_photo"
+        android:id="@+id/reg_passport_photo"
         android:layout_width="@dimen/user_placeholder_dimen"
         android:layout_height="@dimen/user_placeholder_dimen"
         android:layout_marginTop="16dp"
@@ -45,10 +44,10 @@ tools:context=".ui.authentication.RegisterNewAdminFragment">
         android:layout_height="wrap_content"
         android:text="@string/select_image"
         app:cornerRadius="16dp"
-        app:layout_constraintEnd_toEndOf="@+id/passport_photo"
+        app:layout_constraintEnd_toEndOf="@+id/reg_passport_photo"
         app:layout_constraintHorizontal_bias="0.138"
-        app:layout_constraintStart_toStartOf="@+id/passport_photo"
-        app:layout_constraintTop_toBottomOf="@id/passport_photo" />
+        app:layout_constraintStart_toStartOf="@+id/reg_passport_photo"
+        app:layout_constraintTop_toBottomOf="@id/reg_passport_photo" />
 
     <EditText
         android:id="@+id/rg_first_name"
@@ -162,7 +161,7 @@ tools:context=".ui.authentication.RegisterNewAdminFragment">
         app:layout_constraintTop_toBottomOf="@id/rg_select_passport"/>
 
     <EditText
-        android:id="@+id/rg_country"
+        android:id="@+id/rg_country_spinner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -177,7 +176,7 @@ tools:context=".ui.authentication.RegisterNewAdminFragment">
         app:layout_constraintTop_toBottomOf="@id/rg_address" />
 
     <EditText
-        android:id="@+id/rg_state"
+        android:id="@+id/rg_state_spinner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -189,7 +188,7 @@ tools:context=".ui.authentication.RegisterNewAdminFragment">
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rg_country" />
+        app:layout_constraintTop_toBottomOf="@id/rg_country_spinner" />
 
     <Button
         android:id="@+id/register_new_admin"
@@ -199,7 +198,7 @@ tools:context=".ui.authentication.RegisterNewAdminFragment">
         android:text="@string/create_admin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rg_state" />
+        app:layout_constraintTop_toBottomOf="@id/rg_state_spinner" />
 
     <TextView
         android:id="@+id/account_holder"

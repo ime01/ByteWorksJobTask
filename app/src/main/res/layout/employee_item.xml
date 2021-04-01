@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/parent"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     app:cardBackgroundColor="@android:color/holo_blue_bright"
     app:cardCornerRadius="18dp"
     app:cardElevation="2dp"
@@ -14,7 +14,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/parent_layout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         app:cardBackgroundColor="@android:color/holo_blue_bright"
         app:cardCornerRadius="18dp"
         app:cardElevation="2dp"
@@ -30,116 +30,52 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/passport_photo"
+                android:id="@+id/reg_passport_photo"
                 android:layout_width="@dimen/user_placeholder_dimen"
                 android:layout_height="@dimen/user_placeholder_dimen"
                 android:contentDescription="@string/user_placholder_image"
                 android:src="@drawable/ic_baseline_person_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.475"
+                app:layout_constraintHorizontal_bias="0.057"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.03" />
+                app:layout_constraintVertical_bias="0.034" />
 
             <TextView
                 android:id="@+id/first_name"
                 style="@style/UserDetailsStyle"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
                 android:text=""
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.059"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/passport_photo"
-                app:layout_constraintVertical_bias="0.026" />
+                app:layout_constraintStart_toEndOf="@+id/reg_passport_photo"
+                app:layout_constraintTop_toTopOf="@id/reg_passport_photo" />
 
             <TextView
                 android:id="@+id/last_name"
                 style="@style/UserDetailsStyle"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text=""
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/first_name"
                 app:layout_constraintStart_toStartOf="@+id/first_name"
                 app:layout_constraintTop_toBottomOf="@id/first_name"
                 app:layout_constraintVertical_bias="0.044" />
 
             <TextView
-                android:id="@+id/male"
-                style="@style/UserDetailsStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text=""
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/last_name"
-                app:layout_constraintTop_toBottomOf="@id/last_name"
-                app:layout_constraintVertical_bias="0.06" />
-
-            <TextView
-                android:id="@+id/designation"
-                style="@style/UserDetailsStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text=""
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/male"
-                app:layout_constraintTop_toBottomOf="@id/male"
-                app:layout_constraintVertical_bias="0.086" />
-
-            <TextView
-                android:id="@+id/date_of_birth"
-                style="@style/UserDetailsStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text=""
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/designation"
-                app:layout_constraintTop_toBottomOf="@id/designation"
-                app:layout_constraintVertical_bias="0.087" />
-
-            <TextView
-                android:id="@+id/address"
-                style="@style/UserDetailsStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text=""
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/date_of_birth"
-                app:layout_constraintTop_toBottomOf="@id/date_of_birth"
-                app:layout_constraintVertical_bias="0.103" />
-
-            <TextView
                 android:id="@+id/country"
                 style="@style/UserDetailsStyle"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginStart="8dp"
                 android:text=""
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/address"
-                app:layout_constraintTop_toBottomOf="@id/address"
-                app:layout_constraintVertical_bias="0.103" />
-
-            <TextView
-                android:id="@+id/state"
-                style="@style/UserDetailsStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text=""
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/country"
-                app:layout_constraintTop_toBottomOf="@id/country"
-                app:layout_constraintVertical_bias="0.103" />
+                app:layout_constraintEnd_toEndOf="@+id/last_name"
+                app:layout_constraintStart_toEndOf="@+id/reg_passport_photo"
+                app:layout_constraintTop_toBottomOf="@+id/last_name" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
