@@ -1,7 +1,6 @@
-package com.flowz.byteworksjobtask.ui.addnewemployee
+package com.flowz.byteworksjobtask.ui.employees
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -13,49 +12,37 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.RadioGroup
 import androidx.core.app.ActivityCompat
-import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import com.flowz.byteworksjobtask.Model.Countries
 import com.flowz.byteworksjobtask.Model.Employee
+import com.flowz.byteworksjobtask.Model.Result
 import com.flowz.byteworksjobtask.R
 import com.flowz.byteworksjobtask.ui.authentication.RegisterNewAdminFragment
 import com.flowz.byteworksjobtask.util.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_add_new_employee.*
-import java.io.ByteArrayOutputStream
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [AddNewEmployeeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 
 @AndroidEntryPoint
 class AddNewEmployeeFragment : Fragment() {
 
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
     private lateinit var gender : String
+    private var country  = ArrayList<String>()
+    private lateinit var countryToDb : String
     private var imageUri : Uri? = null
 
-    private val addNewEmployeeViewModel by viewModels<AddEmployeeViewModel>()
+    private val employeeViewModel by viewModels<EmployeeViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
@@ -70,6 +57,38 @@ class AddNewEmployeeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val rbG = view.findViewById<RadioGroup>(R.id.ne_gender) as RadioGroup
+
+        country.add(0, "Select Country")
+        val arrayAdapter =  ArrayAdapter(this.requireActivity().applicationContext, R.layout.sp_text_view, country )
+        ne_country.adapter = arrayAdapter
+
+        if (getConnectionType(requireContext())){
+            employeeViewModel.fetchCountries()
+        }else{
+            showSnackbar(ne_address, getString(R.string.get_internet_connection))
+        }
+
+        employeeViewModel.countriesFromApi.observe(viewLifecycleOwner, Observer {
+            it.result.forEach {
+                country.add(it.name)
+            }
+        })
+
+        ne_country.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+
+                countryToDb = parent?.getItemAtPosition(position).toString()
+
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+        }
+
+
+
 
         rbG.setOnCheckedChangeListener { group, checkedId ->
 
@@ -132,10 +151,12 @@ class AddNewEmployeeFragment : Fragment() {
             }else if(TextUtils.isEmpty(ne_address.text.toString())){
                 ne_address.setError(getString(R.string.enter_valid_input))
                 return@setOnClickListener
-            }else if(TextUtils.isEmpty(ne_country.text.toString())){
-                ne_country.setError(getString(R.string.enter_valid_input))
+            }
+            else if(ne_country.selectedItem == 0){
+                showSnackbar(ne_address, getString(R.string.ensure_country_choosen))
                 return@setOnClickListener
-            }else if(TextUtils.isEmpty(ne_state.text.toString())){
+            }
+            else if(TextUtils.isEmpty(ne_state.text.toString())){
                 ne_state.setError(getString(R.string.enter_valid_input))
                 return@setOnClickListener
             }else if(imageUri == null){
@@ -151,15 +172,15 @@ class AddNewEmployeeFragment : Fragment() {
                     ne_date_of_birth.takeWords(),
                     imageUri,
                     ne_address.takeWords(),
-                    ne_country.takeWords(),
+                        countryToDb,
                     ne_state.takeWords()
                 )
 
 
-                addNewEmployeeViewModel.insertEmployee(newEmployee)
-                showSnackbar(ne_address, getString(R.string.new_account_success))
+                employeeViewModel.insertEmployee(newEmployee)
+                showSnackbar(ne_address, getString(R.string.new_employee_success))
 
-                val arrayOfViewsToClearAfterSavingEmployee = arrayOf(ne_first_name,ne_last_name,ne_designation,ne_date_of_birth, ne_address, ne_country, ne_state)
+                val arrayOfViewsToClearAfterSavingEmployee = arrayOf(ne_first_name,ne_last_name,ne_designation,ne_date_of_birth, ne_address, ne_state)
                 clearTexts(arrayOfViewsToClearAfterSavingEmployee)
                 ne_male.isChecked = false
                 ne_female.isChecked = false
@@ -221,7 +242,9 @@ class AddNewEmployeeFragment : Fragment() {
         val intent = Intent()
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(intent, REQUESTCODE)
+        startActivityForResult(intent,
+            REQUESTCODE
+        )
     }
 
     private fun openCamera() {
@@ -231,27 +254,9 @@ class AddNewEmployeeFragment : Fragment() {
 
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AddNewEmployeeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         val READIMAGE = 255
         val REQUESTCODE = 100
         val IMAGECAPUTRECODE = 400
 
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            AddNewEmployeeFragment()
-                .apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
     }
 }

@@ -40,4 +40,14 @@
     <string name="open_camera">Open Camera</string>
     <string name="choose_from_gallery">Choose from Gallery</string>
     <string name="choose_image">Choose Image</string>
+    <string name="de_first_name">FirstName :  </string>
+    <string name="de_last_name">LastName :  </string>
+    <string name="de_gender">Gender :  </string>
+    <string name="de_designation">Designation :  </string>
+    <string name="de_dob">Date of Birth :  </string>
+    <string name="de_address">Address :  </string>
+    <string name="de_country">Country :  </string>
+    <string name="de_state">State :  </string>
+    <string name="get_internet_connection">Ensure you have proper internet connection to complete this process</string>
+    <string name="ensure_country_choosen">Ensure you choose a country from the Dropdown</string>
 </resources>

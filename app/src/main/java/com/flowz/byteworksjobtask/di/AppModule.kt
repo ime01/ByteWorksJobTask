@@ -9,6 +9,9 @@ import com.flowz.byteworksjobtask.roomdb.AdminDao
 import com.flowz.byteworksjobtask.roomdb.CompanyDataBase
 import com.flowz.byteworksjobtask.roomdb.DummyDataSoure
 import com.flowz.byteworksjobtask.roomdb.EmployeeDao
+import com.flowz.printfuljobtask.network.ApiServiceCalls
+import com.flowz.printfuljobtask.network.CountryRetrieverApiClient
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,6 +20,10 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Provider
 import javax.inject.Singleton
 
@@ -55,6 +62,27 @@ object AppModule {
     @Singleton
     fun providesAdminDao(db:CompanyDataBase) = db.AdminDao()
 
+
+    val okHttpClient = OkHttpClient.Builder()
+        .readTimeout(60, TimeUnit.SECONDS)
+        .connectTimeout(60, TimeUnit.SECONDS)
+        .build()
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(): Retrofit =
+        Retrofit.Builder()
+            .client(okHttpClient)
+            .baseUrl(CountryRetrieverApiClient.BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(CoroutineCallAdapterFactory())
+            .build()
+
+
+    @Provides
+    @Singleton
+    fun providesDrinksApi(retrofit: Retrofit): ApiServiceCalls =
+        retrofit.create(ApiServiceCalls::class.java)
 
 }
 
