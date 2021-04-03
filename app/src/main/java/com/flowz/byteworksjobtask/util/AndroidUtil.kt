@@ -2,8 +2,6 @@ package com.flowz.byteworksjobtask.util
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.media.AudioAttributes
-import android.media.MediaPlayer
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
@@ -17,7 +15,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import java.io.ByteArrayOutputStream
 //import com.localazy.android.Localazy.getString
-import java.io.IOException
 
 
 fun AppCompatActivity.showToast(message: String) {
@@ -31,9 +28,9 @@ fun EditText.takeWords() : String{
     return this.text.toString().trim()
 }
 
-fun clearTexts(views:  Array<EditText>) {
+fun clearTexts(views: Array<TextInputEditText>) {
     views.forEach {
-        it.text.clear()
+        it.text?.clear()
     }
 }
 

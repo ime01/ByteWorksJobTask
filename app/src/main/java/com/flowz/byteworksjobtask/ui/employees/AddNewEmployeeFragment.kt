@@ -19,11 +19,8 @@ import android.widget.RadioGroup
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import com.flowz.byteworksjobtask.Model.Countries
 import com.flowz.byteworksjobtask.Model.Employee
-import com.flowz.byteworksjobtask.Model.Result
 import com.flowz.byteworksjobtask.R
 import com.flowz.byteworksjobtask.ui.authentication.RegisterNewAdminFragment
 import com.flowz.byteworksjobtask.util.*
@@ -35,8 +32,10 @@ import kotlinx.android.synthetic.main.fragment_add_new_employee.*
 class AddNewEmployeeFragment : Fragment() {
 
     private lateinit var gender : String
-    private var country  = ArrayList<String>()
+    private var countryList  = ArrayList<String>()
+    private var states  = ArrayList<String>()
     private lateinit var countryToDb : String
+    private lateinit var stateToDb : String
     private var imageUri : Uri? = null
 
     private val employeeViewModel by viewModels<EmployeeViewModel>()
@@ -58,9 +57,13 @@ class AddNewEmployeeFragment : Fragment() {
 
         val rbG = view.findViewById<RadioGroup>(R.id.ne_gender) as RadioGroup
 
-        country.add(0, "Select Country")
-        val arrayAdapter =  ArrayAdapter(this.requireActivity().applicationContext, R.layout.sp_text_view, country )
+        countryList.add(0, "Select Country")
+        states.add(0, "Select State")
+
+        val arrayAdapter =  ArrayAdapter(this.requireActivity().applicationContext, R.layout.sp_text_view, countryList )
+        val statesAdapter =  ArrayAdapter(this.requireActivity().applicationContext, R.layout.sp_text_view, states )
         ne_country.adapter = arrayAdapter
+        ne_state.adapter = statesAdapter
 
         if (getConnectionType(requireContext())){
             employeeViewModel.fetchCountries()
@@ -70,7 +73,7 @@ class AddNewEmployeeFragment : Fragment() {
 
         employeeViewModel.countriesFromApi.observe(viewLifecycleOwner, Observer {
             it.result.forEach {
-                country.add(it.name)
+                countryList.add(it.name)
             }
         })
 
@@ -88,7 +91,18 @@ class AddNewEmployeeFragment : Fragment() {
         }
 
 
+        ne_state.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
 
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+
+                stateToDb = parent?.getItemAtPosition(position).toString()
+
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+        }
 
         rbG.setOnCheckedChangeListener { group, checkedId ->
 
@@ -152,12 +166,12 @@ class AddNewEmployeeFragment : Fragment() {
                 ne_address.setError(getString(R.string.enter_valid_input))
                 return@setOnClickListener
             }
-            else if(ne_country.selectedItem == 0){
+            else if(TextUtils.isEmpty(ne_country.selectedItem.toString())){
                 showSnackbar(ne_address, getString(R.string.ensure_country_choosen))
                 return@setOnClickListener
             }
-            else if(TextUtils.isEmpty(ne_state.text.toString())){
-                ne_state.setError(getString(R.string.enter_valid_input))
+            else if(TextUtils.isEmpty(ne_state.selectedItem.toString())){
+                showSnackbar(ne_address, getString(R.string.ensure_state_choosen))
                 return@setOnClickListener
             }else if(imageUri == null){
                 ne_select_passport.setError(getString(R.string.choose_passport))
@@ -173,14 +187,14 @@ class AddNewEmployeeFragment : Fragment() {
                     imageUri,
                     ne_address.takeWords(),
                         countryToDb,
-                    ne_state.takeWords()
+                    stateToDb
                 )
 
 
                 employeeViewModel.insertEmployee(newEmployee)
                 showSnackbar(ne_address, getString(R.string.new_employee_success))
 
-                val arrayOfViewsToClearAfterSavingEmployee = arrayOf(ne_first_name,ne_last_name,ne_designation,ne_date_of_birth, ne_address, ne_state)
+                val arrayOfViewsToClearAfterSavingEmployee = arrayOf(ne_first_name,ne_last_name,ne_designation,ne_date_of_birth, ne_address)
                 clearTexts(arrayOfViewsToClearAfterSavingEmployee)
                 ne_male.isChecked = false
                 ne_female.isChecked = false
