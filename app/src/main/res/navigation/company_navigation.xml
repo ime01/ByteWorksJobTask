@@ -28,10 +28,20 @@
         <action
             android:id="@+id/action_employeeFragment_to_addNewEmployeeFragment"
             app:destination="@id/addNewEmployeeFragment" />
+        <action
+            android:id="@+id/action_employeeFragment_to_hilt_EmployeeDetailsFragment"
+            app:destination="@id/employeeDetailsFragment" />
+
+        <argument
+            android:name="Employee"
+            app:argType="com.flowz.byteworksjobtask.Model.Employee"
+            app:nullable="true"
+            android:defaultValue="@null" />
+
     </fragment>
     <fragment
         android:id="@+id/addNewEmployeeFragment"
-        android:name="com.flowz.byteworksjobtask.ui.addnewemployee.AddNewEmployeeFragment"
+        android:name="com.flowz.byteworksjobtask.ui.employees.AddNewEmployeeFragment"
         android:label="Add New Employee"
         tools:layout="@layout/fragment_add_new_employee" />
     <fragment
@@ -46,5 +56,17 @@
     <fragment
         android:id="@+id/forgotPassworrdFragment"
         android:name="com.flowz.byteworksjobtask.ui.authentication.ForgotPassworrdFragment"
-        android:label="Forgot Password" />
+        android:label="Forgot Password" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/employeeDetailsFragment"
+        android:name="com.flowz.byteworksjobtask.ui.employees.EmployeeDetailsFragment"
+        android:label="Employee Details">
+    <argument
+        android:name="Employee"
+        app:argType="com.flowz.byteworksjobtask.Model.Employee"
+        app:nullable="true"
+        android:defaultValue="@null" />
+    </fragment>
 </navigation>

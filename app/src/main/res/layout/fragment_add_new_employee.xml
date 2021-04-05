@@ -5,26 +5,28 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.addnewemployee.AddNewEmployeeFragment">
+    tools:context=".ui.employees.AddNewEmployeeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/ne_textView2"
-        style="@style/TextLabel"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="@dimen/textpadding"
-        android:text="@string/new_employee"
-        android:textStyle="bold|italic"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.047" />
+
+        <TextView
+            android:id="@+id/ne_textView2"
+            style="@style/TextLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sofia"
+            android:gravity="center"
+            android:padding="@dimen/textpadding"
+            android:text="@string/new_employee"
+            android:textStyle="bold|italic"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.047" />
 
         <ImageView
             android:id="@+id/ne_passport_photo"
@@ -36,7 +38,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.083"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ne_date_of_birth"  />
+            app:layout_constraintTop_toBottomOf="@id/dob_layout"  />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/ne_select_passport"
@@ -50,35 +52,53 @@
             app:layout_constraintTop_toBottomOf="@id/ne_passport_photo" />
 
 
-        <EditText
-        android:id="@+id/ne_first_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:padding="@dimen/textpadding"
-        android:ems="10"
-        android:hint="@string/rg_name"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ne_textView2" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/firstname_layout"
+            app:layout_constraintTop_toBottomOf="@id/ne_textView2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            style="@style/TextLabel"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            app:hintEnabled="true"
+            android:hint="@string/enter_first_name">
 
-    <EditText
-        android:id="@+id/ne_last_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:ems="10"
-        android:hint="@string/enter_last_name"
-        android:padding="@dimen/textpadding"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ne_first_name"/>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ne_first_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/almendra"
+                android:inputType="textPersonName"
+                android:drawableStart="@drawable/ic_baseline_person_24"
+                android:singleLine="true"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/lastname_layout"
+            style="@style/TextLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:hint="@string/enter_last_name"
+            app:hintEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/firstname_layout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ne_last_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_baseline_person_24"
+                android:fontFamily="@font/almendra"
+                android:inputType="textPersonName"
+                android:singleLine="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <RadioGroup
             android:id="@+id/ne_gender"
@@ -88,12 +108,13 @@
             android:paddingLeft="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ne_last_name" >
+            app:layout_constraintTop_toBottomOf="@+id/lastname_layout" >
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="GENDER"
+            android:text="@string/gender"
+            android:fontFamily="@font/almendra"
             android:paddingLeft="8dp"
             android:textStyle="bold"
             android:textColor="@color/black"
@@ -103,90 +124,116 @@
             android:id="@+id/ne_male"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="MALE"
+            android:fontFamily="@font/almendra"
+            android:text="@string/male"
             android:textColor="@color/black"
             android:textSize="14sp"/>
         <RadioButton
             android:id="@+id/ne_female"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="FEMALE"
+            android:fontFamily="@font/almendra"
+            android:text="@string/female"
             android:textColor="@color/black"
             android:textSize="14sp"/>
 
         </RadioGroup>
 
-    <EditText
-        android:id="@+id/ne_designation"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:padding="@dimen/textpadding"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:ems="10"
-        android:hint="@string/enter_designation"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ne_gender" />
 
-    <EditText
-        android:id="@+id/ne_date_of_birth"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:ems="10"
-        android:hint="@string/enter_birth_date"
-        android:inputType="date"
-        android:padding="@dimen/textpadding"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ne_designation" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/designation_layout"
+            app:layout_constraintTop_toBottomOf="@id/ne_gender"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            style="@style/TextLabel"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            app:hintEnabled="true"
+            android:hint="@string/enter_designation">
 
-    <EditText
-        android:id="@+id/ne_address"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:ems="10"
-        android:hint="@string/enter_address"
-        android:inputType="text"
-        android:padding="@dimen/textpadding"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ne_select_passport" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ne_designation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/almendra"
+                android:inputType="text"
+                android:drawableStart="@drawable/ic_baseline_work_24"
+                android:singleLine="true"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
-        android:id="@+id/ne_country"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:ems="10"
-        android:hint="@string/enter_country"
-        android:inputType="text"
-        android:padding="@dimen/textpadding"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ne_address" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/dob_layout"
+            style="@style/TextLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:hint="@string/enter_birth_date"
+            app:hintEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/designation_layout">
 
-    <EditText
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ne_date_of_birth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_baseline_cake_24"
+                android:fontFamily="@font/almendra"
+                android:inputType="date"
+                android:maxLength="10"
+                android:singleLine="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/address_layout"
+            style="@style/TextLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:hint="@string/enter_address"
+            app:hintEnabled="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ne_select_passport">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ne_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_baseline_home_24"
+                android:fontFamily="@font/almendra"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Spinner
+            android:id="@+id/ne_country"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorAccent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/almendra"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/address_layout" />
+
+    <Spinner
         android:id="@+id/ne_state"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:ems="10"
-        android:hint="@string/enter_state"
-        android:inputType="text"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:padding="@dimen/textpadding"
+        android:fontFamily="@font/almendra"
+        android:backgroundTint="@color/colorAccent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ne_country" />
@@ -196,6 +243,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:fontFamily="@font/almendra"
         android:text="@string/save_employee"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

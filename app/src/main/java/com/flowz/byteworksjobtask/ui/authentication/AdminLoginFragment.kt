@@ -68,8 +68,8 @@ class AdminLoginFragment : Fragment() {
         val navController : NavController = Navigation.findNavController(view)
 
         lifecycleScope.launch {
-            readFirstName = ReadLoginInfo(FIRSTNAME)!!
-            readPasswordName = ReadLoginInfo(PASSWORD)!!
+            readFirstName = ReadLoginInfo(FIRSTNAME).toString()
+            readPasswordName = ReadLoginInfo(PASSWORD).toString()
         }
 
 

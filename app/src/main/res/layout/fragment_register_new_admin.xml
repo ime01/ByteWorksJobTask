@@ -18,17 +18,17 @@ tools:context=".ui.authentication.RegisterNewAdminFragment">
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="@dimen/textpadding"
+        android:fontFamily="@font/sofia"
         android:text="@string/register_admin"
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.02" />
+        app:layout_constraintVertical_bias="0.047" />
 
     <ImageView
-        android:id="@+id/passport_photo"
+        android:id="@+id/reg_passport_photo"
         android:layout_width="@dimen/user_placeholder_dimen"
         android:layout_height="@dimen/user_placeholder_dimen"
         android:layout_marginTop="16dp"
@@ -37,63 +37,92 @@ tools:context=".ui.authentication.RegisterNewAdminFragment">
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.083"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rg_date_of_birth" />
+        app:layout_constraintTop_toBottomOf="@id/rg_dob_layout" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/rg_select_passport"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/select_image"
+        android:fontFamily="@font/almendra"
         app:cornerRadius="16dp"
-        app:layout_constraintEnd_toEndOf="@+id/passport_photo"
+        app:layout_constraintEnd_toEndOf="@+id/reg_passport_photo"
         app:layout_constraintHorizontal_bias="0.138"
-        app:layout_constraintStart_toStartOf="@+id/passport_photo"
-        app:layout_constraintTop_toBottomOf="@id/passport_photo" />
+        app:layout_constraintStart_toStartOf="@+id/reg_passport_photo"
+        app:layout_constraintTop_toBottomOf="@id/reg_passport_photo" />
 
-    <EditText
-        android:id="@+id/rg_first_name"
-        android:layout_width="0dp"
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/firstname_layout"
+        app:layout_constraintTop_toBottomOf="@id/textView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        style="@style/TextLabel"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:hintEnabled="true"
+        android:hint="@string/enter_first_name">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/rg_first_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/almendra"
+            android:inputType="textPersonName"
+            android:drawableStart="@drawable/ic_baseline_person_24"
+            android:singleLine="true"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/lastname_layout"
+        style="@style/TextLabel"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:ems="10"
-        android:hint="@string/rg_name"
-        android:inputType="textPersonName"
-        android:padding="@dimen/textpadding"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-    <EditText
-        android:id="@+id/rg_last_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:ems="10"
         android:hint="@string/enter_last_name"
-        android:padding="@dimen/textpadding"
-        android:inputType="textPersonName"
+        app:hintEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rg_first_name"/>
+        app:layout_constraintTop_toBottomOf="@id/firstname_layout">
 
-    <EditText
-        android:id="@+id/rg_password"
-        android:layout_width="0dp"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/rg_last_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_baseline_person_24"
+            android:fontFamily="@font/almendra"
+            android:inputType="textPersonName"
+            android:singleLine="true" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/password_layout"
+        style="@style/TextLabel"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:ems="10"
         android:hint="@string/enter_password"
-        android:padding="@dimen/textpadding"
-        android:inputType="textPassword"
+        app:hintEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rg_last_name"/>
+        app:layout_constraintTop_toBottomOf="@id/lastname_layout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/rg_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_baseline_lock_24"
+            android:fontFamily="@font/almendra"
+            android:inputType="textPassword"
+            android:singleLine="true" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
 
     <RadioGroup
         android:id="@+id/rg_gender"
@@ -103,12 +132,13 @@ tools:context=".ui.authentication.RegisterNewAdminFragment">
         android:paddingLeft ="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rg_password" >
+        app:layout_constraintTop_toBottomOf="@+id/password_layout" >
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="GENDER"
+            android:text="@string/gender"
+            android:fontFamily="@font/almendra"
             android:textStyle="bold"
             android:paddingLeft ="8dp"
             android:textColor="@color/black"
@@ -118,88 +148,104 @@ tools:context=".ui.authentication.RegisterNewAdminFragment">
             android:id="@+id/rg_male"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="MALE"
+            android:text="@string/male"
+            android:fontFamily="@font/almendra"
             android:textColor="@color/black"
             android:textSize="14sp"/>
         <RadioButton
             android:id="@+id/rg_female"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="FEMALE"
+            android:fontFamily="@font/almendra"
+            android:text="@string/female"
             android:textColor="@color/black"
             android:textSize="14sp"/>
 
     </RadioGroup>
 
-    <EditText
-        android:id="@+id/rg_date_of_birth"
-        android:layout_width="0dp"
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/rg_dob_layout"
+        style="@style/TextLabel"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:ems="10"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:hint="@string/enter_birth_date"
-        android:inputType="date"
-        android:padding="@dimen/textpadding"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        app:hintEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rg_gender" />
+        app:layout_constraintTop_toBottomOf="@id/rg_gender">
 
-    <EditText
-        android:id="@+id/rg_address"
-        android:layout_width="0dp"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/rg_date_of_birth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_baseline_cake_24"
+            android:fontFamily="@font/almendra"
+            android:inputType="date"
+            android:singleLine="true" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/rg_address_layout"
+        style="@style/TextLabel"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:ems="10"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:hint="@string/enter_address"
-        android:inputType="text"
-        android:padding="@dimen/textpadding"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        app:hintEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rg_select_passport"/>
+        app:layout_constraintTop_toBottomOf="@id/rg_select_passport">
 
-    <EditText
-        android:id="@+id/rg_country"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/rg_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_baseline_home_24"
+            android:fontFamily="@font/almendra"
+            android:inputType="text" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <Spinner
+        android:id="@+id/rg_country_spinner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:ems="10"
-        android:hint="@string/enter_country"
-        android:inputType="text"
-        android:padding="@dimen/textpadding"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rg_address" />
+        app:layout_constraintTop_toBottomOf="@id/rg_address_layout" />
 
-    <EditText
-        android:id="@+id/rg_state"
+    <Spinner
+        android:id="@+id/rg_state_spinner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:ems="10"
-        android:hint="@string/enter_state"
-        android:inputType="text"
         android:padding="@dimen/textpadding"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rg_country" />
+        app:layout_constraintTop_toBottomOf="@id/rg_country_spinner" />
 
     <Button
         android:id="@+id/register_new_admin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:fontFamily="@font/almendra"
         android:text="@string/create_admin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rg_state" />
+        app:layout_constraintTop_toBottomOf="@id/rg_state_spinner" />
 
     <TextView
         android:id="@+id/account_holder"
@@ -207,6 +253,7 @@ tools:context=".ui.authentication.RegisterNewAdminFragment">
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
+        android:fontFamily="@font/almendra"
         android:gravity="center"
         android:text="@string/account_holder"
         android:textColor="@color/colorAccent"
