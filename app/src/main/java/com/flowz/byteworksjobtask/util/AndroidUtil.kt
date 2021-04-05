@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import java.io.ByteArrayOutputStream
+import java.io.InputStream
+
 //import com.localazy.android.Localazy.getString
 
 
@@ -32,6 +34,28 @@ fun clearTexts(views: Array<TextInputEditText>) {
     views.forEach {
         it.text?.clear()
     }
+}
+
+fun loadJson(context: Context):String?{
+    var input: InputStream? = null
+    var jsonString: String
+
+    try {
+//            input = context.assets.open("test.json")
+        input = context.assets.open("countriestates.json")
+        val size = input.available()
+        val buffer = ByteArray(size)
+        input.read(buffer)
+        jsonString = String(buffer)
+        return jsonString
+    }
+    catch (e:Exception){
+        e.printStackTrace()
+    }
+    finally {
+        input?.close()
+    }
+    return null
 }
 
 fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {

@@ -9,33 +9,36 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.ImageView
-import android.widget.RadioGroup
+import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import com.flowz.byteworksjobtask.Model.Employee
+import com.flowz.byteworksjobtask.Model.modelsfromjsonfile.CountryStateModelLite
 import com.flowz.byteworksjobtask.R
 import com.flowz.byteworksjobtask.ui.authentication.RegisterNewAdminFragment
 import com.flowz.byteworksjobtask.util.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_add_new_employee.*
+import kotlinx.coroutines.*
+import kotlin.concurrent.thread
 
 @AndroidEntryPoint
 class AddNewEmployeeFragment : Fragment() {
 
     private lateinit var gender : String
     private var countryList  = ArrayList<String>()
-    private var states  = ArrayList<String>()
+    private lateinit var countryFromJson : CountryStateModelLite
+    private var spinnerStates  = ArrayList<String>()
     private lateinit var countryToDb : String
     private lateinit var stateToDb : String
+    private  var valuesFromJson : String? = null
     private var imageUri : Uri? = null
 
     private val employeeViewModel by viewModels<EmployeeViewModel>()
@@ -58,30 +61,44 @@ class AddNewEmployeeFragment : Fragment() {
         val rbG = view.findViewById<RadioGroup>(R.id.ne_gender) as RadioGroup
 
         countryList.add(0, "Select Country")
-        states.add(0, "Select State")
+        spinnerStates.add(0, "Select State")
+
+           val values = loadJson(requireContext())
+
+                valuesFromJson = values
+
+        countryFromJson = Gson().fromJson(valuesFromJson, CountryStateModelLite::class.java)
+
+        countryFromJson.forEach {
+            countryList.add(it.name)
+        }
+
+        Log.e("JSON", "JSON FILES GOTTEN FROM ASSETS + $countryFromJson")
 
         val arrayAdapter =  ArrayAdapter(this.requireActivity().applicationContext, R.layout.sp_text_view, countryList )
-        val statesAdapter =  ArrayAdapter(this.requireActivity().applicationContext, R.layout.sp_text_view, states )
+        val statesAdapter =  ArrayAdapter(this.requireActivity().applicationContext, R.layout.sp_text_view, spinnerStates )
         ne_country.adapter = arrayAdapter
         ne_state.adapter = statesAdapter
 
-        if (getConnectionType(requireContext())){
-            employeeViewModel.fetchCountries()
-        }else{
-            showSnackbar(ne_address, getString(R.string.get_internet_connection))
-        }
-
-        employeeViewModel.countriesFromApi.observe(viewLifecycleOwner, Observer {
-            it.result.forEach {
-                countryList.add(it.name)
-            }
-        })
 
         ne_country.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
 
                 countryToDb = parent?.getItemAtPosition(position).toString()
+
+                countryFromJson.forEach {
+                    if (countryToDb == it.name){
+
+                        val allStates = it.states
+
+                        allStates.forEach {
+                            spinnerStates.add(it.name)
+                        }
+
+
+                    }
+                }
 
             }
 
@@ -166,11 +183,11 @@ class AddNewEmployeeFragment : Fragment() {
                 ne_address.setError(getString(R.string.enter_valid_input))
                 return@setOnClickListener
             }
-            else if(TextUtils.isEmpty(ne_country.selectedItem.toString())){
+            else if(ne_country.selectedItem.toString()==getString(R.string.spinner_select_country)){
                 showSnackbar(ne_address, getString(R.string.ensure_country_choosen))
                 return@setOnClickListener
             }
-            else if(TextUtils.isEmpty(ne_state.selectedItem.toString())){
+            else if(ne_state.selectedItem.toString()==getString(R.string.spinner_select_state)){
                 showSnackbar(ne_address, getString(R.string.ensure_state_choosen))
                 return@setOnClickListener
             }else if(imageUri == null){
@@ -199,11 +216,14 @@ class AddNewEmployeeFragment : Fragment() {
                 ne_male.isChecked = false
                 ne_female.isChecked = false
                 ne_passport_photo.setImageResource(R.drawable.ic_baseline_person_24)
+                ne_country.firstVisiblePosition
+                ne_state.firstVisiblePosition
             }
 
         }
 
     }
+
 
     fun checkPermssion(){
         if(Build.VERSION.SDK_INT>=23){

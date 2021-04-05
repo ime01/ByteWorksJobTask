@@ -9,12 +9,12 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.TextUtils
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.RadioGroup
+import android.widget.*
 import androidx.core.app.ActivityCompat
 import androidx.core.net.toUri
 import androidx.datastore.core.DataStore
@@ -27,14 +27,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.flowz.byteworksjobtask.Model.Admin
+import com.flowz.byteworksjobtask.Model.modelsfromjsonfile.CountryStateModelLite
 import com.flowz.byteworksjobtask.R
 import com.flowz.byteworksjobtask.ui.admin.AdminViewModel
-import com.flowz.byteworksjobtask.util.getImageUri
-import com.flowz.byteworksjobtask.util.showSnackbar
-import com.flowz.byteworksjobtask.util.showToast
-import com.flowz.byteworksjobtask.util.takeWords
+import com.flowz.byteworksjobtask.util.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_add_new_employee.*
 import kotlinx.android.synthetic.main.fragment_register_new_admin.*
 import kotlinx.coroutines.launch
 
@@ -58,6 +58,12 @@ class RegisterNewAdminFragment : Fragment() {
     private lateinit var gender : String
     private var imageUri : Uri? = null
     private lateinit var dataStore: DataStore<Preferences>
+    private var countryList  = ArrayList<String>()
+    private lateinit var countryFromJson : CountryStateModelLite
+    private var spinnerStates  = ArrayList<String>()
+    private lateinit var countryToDb : String
+    private lateinit var stateToDb : String
+    private  var valuesFromJson : String? = null
 
     private val adminViewModel by viewModels<AdminViewModel>()
 
@@ -82,6 +88,67 @@ class RegisterNewAdminFragment : Fragment() {
 
         val navController : NavController = Navigation.findNavController(view)
         dataStore = requireContext().createDataStore(name = "LOGIN")
+
+        countryList.add(0, "Select Country")
+        spinnerStates.add(0, "Select State")
+
+        val values = loadJson(requireContext())
+
+        valuesFromJson = value
+
+        countryFromJson = Gson().fromJson(valuesFromJson, CountryStateModelLite::class.java)
+
+        countryFromJson.forEach {
+            countryList.add(it.name)
+        }
+
+        Log.e("JSON", "JSON FILES GOTTEN FROM ASSETS + $countryFromJson")
+
+        val arrayAdapter =  ArrayAdapter(this.requireActivity().applicationContext, R.layout.sp_text_view, countryList )
+        val statesAdapter =  ArrayAdapter(this.requireActivity().applicationContext, R.layout.sp_text_view, spinnerStates )
+        rg_country_spinner.adapter = arrayAdapter
+        rg_state_spinner.adapter = statesAdapter
+
+
+        rg_country_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+
+                countryToDb = parent?.getItemAtPosition(position).toString()
+
+                countryFromJson.forEach {
+                    if (countryToDb == it.name){
+
+                        val allStates = it.states
+
+                        allStates.forEach {
+                            spinnerStates.add(it.name)
+                        }
+
+
+                    }
+                }
+
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+        }
+
+        rg_state_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+
+                stateToDb = parent?.getItemAtPosition(position).toString()
+
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+        }
+
 
 
         val rbG = view.findViewById<RadioGroup>(R.id.rg_gender) as RadioGroup
@@ -148,11 +215,12 @@ class RegisterNewAdminFragment : Fragment() {
             }else if(TextUtils.isEmpty(rg_address.text.toString())){
                 rg_address.setError(getString(R.string.enter_valid_input))
                 return@setOnClickListener
-            }else if(TextUtils.isEmpty(rg_country_spinner.text.toString())){
-                rg_country_spinner.setError(getString(R.string.enter_valid_input))
+            } else if(rg_country_spinner.selectedItem.toString()==getString(R.string.spinner_select_country)){
+                showSnackbar(ne_address, getString(R.string.ensure_country_choosen))
                 return@setOnClickListener
-            }else if(TextUtils.isEmpty(rg_state_spinner.text.toString())){
-                rg_state_spinner.setError(getString(R.string.enter_valid_input))
+            }
+            else if(rg_state_spinner.selectedItem.toString()==getString(R.string.spinner_select_state)){
+                showSnackbar(ne_address, getString(R.string.ensure_state_choosen))
                 return@setOnClickListener
             }else if(imageUri == null){
                 rg_select_passport.setError(getString(R.string.choose_passport))
@@ -173,8 +241,8 @@ class RegisterNewAdminFragment : Fragment() {
                     rg_date_of_birth.takeWords(),
                     imageUri,
                     rg_address.takeWords(),
-                    rg_country_spinner.takeWords(),
-                    rg_state_spinner.takeWords()
+                    countryToDb,
+                    stateToDb
                 )
 
 

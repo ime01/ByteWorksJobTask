@@ -1,6 +1,6 @@
 package com.flowz.byteworksjobtask.ui.employees
 
-import com.flowz.byteworksjobtask.Model.Countries
+import com.flowz.byteworksjobtask.Model.apimodels.Countries
 import com.flowz.byteworksjobtask.Model.Employee
 import com.flowz.byteworksjobtask.roomdb.EmployeeDao
 import com.flowz.printfuljobtask.network.ApiServiceCalls

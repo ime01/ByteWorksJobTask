@@ -5,7 +5,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.flowz.byteworksjobtask.Model.Countries
+import com.flowz.byteworksjobtask.Model.apimodels.Countries
 import com.flowz.byteworksjobtask.Model.Employee
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

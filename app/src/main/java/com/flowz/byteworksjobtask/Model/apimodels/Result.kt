@@ -1,4 +1,4 @@
-package com.flowz.byteworksjobtask.Model
+package com.flowz.byteworksjobtask.Model.apimodels
 
 
 import com.google.gson.annotations.SerializedName

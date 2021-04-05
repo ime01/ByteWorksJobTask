@@ -51,4 +51,9 @@
     <string name="get_internet_connection">Ensure you have proper internet connection to complete this process</string>
     <string name="ensure_country_choosen">Ensure you choose a country from the Dropdown</string>
     <string name="ensure_state_choosen">Ensure you enter your state</string>
+    <string name="gender">GENDER</string>
+    <string name="male">MALE</string>
+    <string name="female">FEMALE</string>
+    <string name="spinner_select_country">Select Country</string>
+    <string name="spinner_select_state">Select State</string>
 </resources>
