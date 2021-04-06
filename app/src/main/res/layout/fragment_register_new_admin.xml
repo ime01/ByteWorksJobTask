@@ -37,7 +37,7 @@ tools:context=".ui.authentication.RegisterNewAdminFragment">
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.083"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rg_dob_layout" />
+        app:layout_constraintTop_toBottomOf="@id/rg_date_of_birth" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/rg_select_passport"
@@ -164,30 +164,17 @@ tools:context=".ui.authentication.RegisterNewAdminFragment">
     </RadioGroup>
 
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/rg_dob_layout"
-        style="@style/TextLabel"
-        android:layout_width="match_parent"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/rg_date_of_birth"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:hint="@string/enter_birth_date"
-        app:hintEnabled="true"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/almendra"
+        android:text="@string/enter_birth_date"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.088"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rg_gender">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/rg_date_of_birth"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_baseline_cake_24"
-            android:fontFamily="@font/almendra"
-            android:inputType="date"
-            android:singleLine="true" />
-    </com.google.android.material.textfield.TextInputLayout>
-
+        app:layout_constraintTop_toBottomOf="@id/rg_gender" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/rg_address_layout"

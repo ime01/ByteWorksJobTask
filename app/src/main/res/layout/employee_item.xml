@@ -72,6 +72,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:text=""
                 app:layout_constraintEnd_toEndOf="@+id/last_name"
                 app:layout_constraintStart_toEndOf="@+id/reg_passport_photo"

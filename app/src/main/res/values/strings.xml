@@ -56,4 +56,10 @@
     <string name="female">FEMALE</string>
     <string name="spinner_select_country">Select Country</string>
     <string name="spinner_select_state">Select State</string>
+    <string name="search">Search</string>
+    <string name="sort">Sort</string>
+    <string name="sort_by_name">Sort by name</string>
+    <string name="sort_by_date">Sort by date created</string>
+    <string name="submit_birth_date">Submit birth date</string>
+    <string name="cancel">Cancel</string>
 </resources>

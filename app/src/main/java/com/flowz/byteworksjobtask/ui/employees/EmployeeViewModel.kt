@@ -2,12 +2,14 @@ package com.flowz.byteworksjobtask.ui.employees
 
 import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.flowz.byteworksjobtask.Model.apimodels.Countries
 import com.flowz.byteworksjobtask.Model.Employee
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
@@ -15,6 +17,17 @@ class EmployeeViewModel @ViewModelInject constructor(private var employeeReposit
 
     val employeesFromdb = employeeRepository.employeesFromdb
     val countriesFromApi = MutableLiveData<Countries>()
+//    val se = MutableLiveData<Employee>()
+//
+//    val searchQuery = MutableStateFlow("")
+//
+//    @ExperimentalCoroutinesApi
+//    private val taskFlow = searchQuery.flatMapLatest {
+//        searchEmployee(it)
+//    }
+//
+//    val searchedEmployeeResult = taskFlow
+
 
     fun insertEmployee(employee: Employee){
         viewModelScope.launch (Dispatchers.IO){
@@ -23,6 +36,12 @@ class EmployeeViewModel @ViewModelInject constructor(private var employeeReposit
 
         }
     }
+
+    fun searchEmployee(searchQuery: String): LiveData<List<Employee>> {
+        return employeeRepository.searchEmployee(searchQuery).asLiveData()
+            Log.d(TAG, "Searched Successfull")
+    }
+
 
      fun fetchCountries() {
          viewModelScope.launch {
