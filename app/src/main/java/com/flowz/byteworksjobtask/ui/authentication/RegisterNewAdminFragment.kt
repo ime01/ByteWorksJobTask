@@ -1,6 +1,7 @@
 package com.flowz.byteworksjobtask.ui.authentication
 
 import android.app.Activity
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -62,6 +63,7 @@ class RegisterNewAdminFragment : Fragment() {
     private lateinit var countryFromJson : CountryStateModelLite
     private var spinnerStates  = ArrayList<String>()
     private lateinit var countryToDb : String
+    private lateinit var dateOFbirthToDb : String
     private lateinit var stateToDb : String
     private  var valuesFromJson : String? = null
 
@@ -92,9 +94,7 @@ class RegisterNewAdminFragment : Fragment() {
         countryList.add(0, "Select Country")
         spinnerStates.add(0, "Select State")
 
-        val values = loadJson(requireContext())
-
-        valuesFromJson = value
+        valuesFromJson  = loadJson(requireContext())
 
         countryFromJson = Gson().fromJson(valuesFromJson, CountryStateModelLite::class.java)
 
@@ -108,6 +108,11 @@ class RegisterNewAdminFragment : Fragment() {
         val statesAdapter =  ArrayAdapter(this.requireActivity().applicationContext, R.layout.sp_text_view, spinnerStates )
         rg_country_spinner.adapter = arrayAdapter
         rg_state_spinner.adapter = statesAdapter
+
+        rg_date_of_birth.setOnClickListener {
+            selectDateOfBirth()
+        }
+
 
 
         rg_country_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
@@ -209,7 +214,7 @@ class RegisterNewAdminFragment : Fragment() {
             } else if(!rg_male.isChecked && !rg_female.isChecked){
                 showToast(getString(R.string.choose_gender), this.requireContext())
                 return@setOnClickListener
-            }else if(TextUtils.isEmpty(rg_date_of_birth.text.toString())){
+            }else if(rg_date_of_birth.text.toString()== getString(R.string.enter_birth_date)){
                 rg_date_of_birth.setError(getString(R.string.enter_valid_input))
                 return@setOnClickListener
             }else if(TextUtils.isEmpty(rg_address.text.toString())){
@@ -238,7 +243,7 @@ class RegisterNewAdminFragment : Fragment() {
                     rg_first_name.takeWords(),
                     rg_last_name.takeWords(),
                     gender,
-                    rg_date_of_birth.takeWords(),
+                    dateOFbirthToDb,
                     imageUri,
                     rg_address.takeWords(),
                     countryToDb,
@@ -330,6 +335,39 @@ class RegisterNewAdminFragment : Fragment() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         startActivityForResult(intent, IMAGECAPUTRECODE )
     }
+
+
+    fun selectDateOfBirth(){
+
+        val layoutInflater = LayoutInflater.from(this.requireContext())
+        val setTimeDialogView = layoutInflater.inflate(R.layout.date_picker_alert_dialog, null)
+        val enteredDate = setTimeDialogView.findViewById<DatePicker>(R.id.date_p)
+
+
+        val alertDialog = MaterialAlertDialogBuilder(requireContext())
+        alertDialog.setView(setTimeDialogView)
+        alertDialog.setTitle(getString(R.string.enter_birth_date))
+        alertDialog.setCancelable(false)
+        alertDialog.setPositiveButton(getString(R.string.submit_birth_date), null)
+        alertDialog.setNegativeButton(getString(R.string.cancel), null)
+        val dialog = alertDialog.create()
+
+        dialog.setOnShowListener {
+            dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
+
+                dateOFbirthToDb = " ${enteredDate.dayOfMonth} - ${enteredDate.month} - ${enteredDate.year} "
+               rg_date_of_birth.setText(dateOFbirthToDb)
+
+                dialog.dismiss()
+
+            }
+            dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener {
+                dialog.dismiss()
+            }
+        }
+        dialog.show()
+    }
+
 
 
     companion object {

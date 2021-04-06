@@ -1,6 +1,7 @@
 package com.flowz.byteworksjobtask.ui.employees
 
 import android.app.Activity
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -26,6 +27,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_add_new_employee.*
+import kotlinx.android.synthetic.main.fragment_register_new_admin.*
 import kotlinx.coroutines.*
 import kotlin.concurrent.thread
 
@@ -37,6 +39,7 @@ class AddNewEmployeeFragment : Fragment() {
     private lateinit var countryFromJson : CountryStateModelLite
     private var spinnerStates  = ArrayList<String>()
     private lateinit var countryToDb : String
+    private lateinit var dateOFbirthToDb : String
     private lateinit var stateToDb : String
     private  var valuesFromJson : String? = null
     private var imageUri : Uri? = null
@@ -79,6 +82,11 @@ class AddNewEmployeeFragment : Fragment() {
         val statesAdapter =  ArrayAdapter(this.requireActivity().applicationContext, R.layout.sp_text_view, spinnerStates )
         ne_country.adapter = arrayAdapter
         ne_state.adapter = statesAdapter
+
+
+        ne_date_of_birth.setOnClickListener {
+            selectDateOfBirth()
+        }
 
 
         ne_country.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
@@ -176,7 +184,7 @@ class AddNewEmployeeFragment : Fragment() {
             }else if(TextUtils.isEmpty(ne_designation.text.toString())){
                 ne_designation.setError(getString(R.string.enter_valid_input))
                 return@setOnClickListener
-            }else if(TextUtils.isEmpty(ne_date_of_birth.text.toString())){
+            }else if(ne_date_of_birth.text.toString()== getString(R.string.enter_birth_date)){
                 ne_date_of_birth.setError(getString(R.string.enter_valid_input))
                 return@setOnClickListener
             }else if(TextUtils.isEmpty(ne_address.text.toString())){
@@ -200,7 +208,7 @@ class AddNewEmployeeFragment : Fragment() {
                     ne_last_name.takeWords(),
                     gender,
                     ne_designation.takeWords(),
-                    ne_date_of_birth.takeWords(),
+                    dateOFbirthToDb,
                     imageUri,
                     ne_address.takeWords(),
                         countryToDb,
@@ -211,11 +219,12 @@ class AddNewEmployeeFragment : Fragment() {
                 employeeViewModel.insertEmployee(newEmployee)
                 showSnackbar(ne_address, getString(R.string.new_employee_success))
 
-                val arrayOfViewsToClearAfterSavingEmployee = arrayOf(ne_first_name,ne_last_name,ne_designation,ne_date_of_birth, ne_address)
+                val arrayOfViewsToClearAfterSavingEmployee = arrayOf(ne_first_name,ne_last_name,ne_designation,ne_address)
                 clearTexts(arrayOfViewsToClearAfterSavingEmployee)
                 ne_male.isChecked = false
                 ne_female.isChecked = false
                 ne_passport_photo.setImageResource(R.drawable.ic_baseline_person_24)
+                ne_date_of_birth.setText(resources.getString(R.string.enter_birth_date))
                 ne_country.firstVisiblePosition
                 ne_state.firstVisiblePosition
             }
@@ -285,6 +294,38 @@ class AddNewEmployeeFragment : Fragment() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         startActivityForResult(intent, RegisterNewAdminFragment.IMAGECAPUTRECODE)
     }
+
+    fun selectDateOfBirth(){
+
+        val layoutInflater = LayoutInflater.from(this.requireContext())
+        val setTimeDialogView = layoutInflater.inflate(R.layout.date_picker_alert_dialog, null)
+        val enteredDate = setTimeDialogView.findViewById<DatePicker>(R.id.date_p)
+
+
+        val alertDialog = MaterialAlertDialogBuilder(requireContext())
+        alertDialog.setView(setTimeDialogView)
+        alertDialog.setTitle(getString(R.string.enter_birth_date))
+        alertDialog.setCancelable(false)
+        alertDialog.setPositiveButton(getString(R.string.submit_birth_date), null)
+        alertDialog.setNegativeButton(getString(R.string.cancel), null)
+        val dialog = alertDialog.create()
+
+        dialog.setOnShowListener {
+            dialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener {
+
+                dateOFbirthToDb = " ${enteredDate.dayOfMonth} - ${enteredDate.month} - ${enteredDate.year} "
+                ne_date_of_birth.setText(dateOFbirthToDb)
+
+                dialog.dismiss()
+
+            }
+            dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener {
+                dialog.dismiss()
+            }
+        }
+        dialog.show()
+    }
+
 
 
     companion object {

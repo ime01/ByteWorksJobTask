@@ -38,7 +38,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.083"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/dob_layout"  />
+            app:layout_constraintTop_toBottomOf="@id/ne_date_of_birth"  />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/ne_select_passport"
@@ -46,6 +46,7 @@
             android:layout_height="wrap_content"
             android:text="@string/select_image"
             app:cornerRadius="16dp"
+            android:fontFamily="@font/almendra"
             app:layout_constraintEnd_toEndOf="@+id/ne_passport_photo"
             app:layout_constraintHorizontal_bias="0.138"
             app:layout_constraintStart_toStartOf="@+id/ne_passport_photo"
@@ -163,31 +164,18 @@
                 android:singleLine="true"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/dob_layout"
-            style="@style/TextLabel"
-            android:layout_width="match_parent"
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/ne_date_of_birth"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:hint="@string/enter_birth_date"
-            app:hintEnabled="true"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/almendra"
+            android:text="@string/enter_birth_date"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.026"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/designation_layout">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/ne_date_of_birth"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_baseline_cake_24"
-                android:fontFamily="@font/almendra"
-                android:inputType="date"
-                android:maxLength="10"
-                android:singleLine="true" />
-        </com.google.android.material.textfield.TextInputLayout>
-
+            app:layout_constraintTop_toBottomOf="@id/designation_layout" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/address_layout"
