@@ -1,5 +1,5 @@
 # ByteWorksJobTask
-An Android App that Captures, Digitizes and saves an Organisation Admin and Employee Information
+An Android App that Captures, Digitizes and saves an Organisation's Admin and Employee Information
 
 An app made for my job recruitment test task to Byteworks(Abuja)
 
@@ -9,7 +9,7 @@ Admin can login with their firstname and password entered while creating their a
 
 A registered and logged in Admin can create and save Employee information
 
-View All employees, Select an employee and more info in details fragment
+View All employees, Select an employee and view more information in details fragment
 
 Search for an employee using first and last name or either
 
