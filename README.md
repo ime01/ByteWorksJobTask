@@ -9,6 +9,10 @@ Admin can login with their firstname and password entered while creating their a
 
 A registered and logged in Admin can create and save Employee information
 
+View All employees, Select an employee and more info in details fragment
+
+Search for an employee using first and last name or either
+
 App utilizes latest Android tech tools like
 
 Dagger Hilt for Dependency Injection
@@ -17,7 +21,7 @@ DataStore
 
 Room DataBase
 
-JetPack Navigation 
+JetPack Navigation with Safe Args
 
 Mvvm with Repository Pattern
 
