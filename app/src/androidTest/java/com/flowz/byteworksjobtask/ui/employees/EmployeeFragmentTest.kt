@@ -21,6 +21,7 @@ class EmployeeFragmentTest{
 
     @get:Rule
     var activityRule = ActivityScenarioRule(MainActivity::class.java)
+//    fix test
 
 
     @Test
