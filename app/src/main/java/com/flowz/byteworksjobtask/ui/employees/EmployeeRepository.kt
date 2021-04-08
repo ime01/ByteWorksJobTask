@@ -23,6 +23,10 @@ class EmployeeRepository @Inject constructor(private val apiClient: ApiServiceCa
         employeeDao.insertEmployee(employee)
     }
 
+    suspend fun deleteEmployee(employee: Employee){
+        employeeDao.deleteEmployee(employee)
+    }
+
     suspend fun fetchCountries(): Countries {
         return apiClient.FetchCountries()
     }

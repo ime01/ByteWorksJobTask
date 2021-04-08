@@ -37,6 +37,14 @@ class EmployeeViewModel @ViewModelInject constructor(private var employeeReposit
         }
     }
 
+    fun deleteEmployee(employee: Employee){
+        viewModelScope.launch (Dispatchers.IO){
+            employeeRepository.deleteEmployee(employee)
+            Log.d(TAG, "Employee Deleted successfully")
+
+        }
+    }
+
     fun searchEmployee(searchQuery: String): LiveData<List<Employee>> {
         return employeeRepository.searchEmployee(searchQuery).asLiveData()
             Log.d(TAG, "Searched Successfull")
