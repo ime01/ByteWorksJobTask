@@ -12,6 +12,9 @@ interface EmployeeDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertEmployee(employee: Employee)
 
+    @Delete
+    suspend fun deleteEmployee(employee: Employee)
+
     @TypeConverters(UriConverters::class)
     @Query("SELECT * FROM employee_table ")
     fun getAllEmployees(): LiveData<List<Employee>>

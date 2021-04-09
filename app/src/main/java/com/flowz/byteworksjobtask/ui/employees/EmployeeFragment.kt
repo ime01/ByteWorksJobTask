@@ -10,11 +10,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.flowz.byteworksjobtask.Model.Employee
 import com.flowz.byteworksjobtask.R
 import com.flowz.byteworksjobtask.util.onQueryTextChanged
 import com.flowz.introtooralanguage.adapters.EmployeeAdapter
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_employee.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -61,11 +64,32 @@ class EmployeeFragment : Fragment(), EmployeeAdapter.RowClickListener {
             employee_recycler.adapter = employeeAdapter
         })
 
+        swipeToDeleteEmployee()
+
         fab.setOnClickListener {
             navController.navigate(R.id.action_employeeFragment_to_addNewEmployeeFragment)
         }
+    }
 
+    private fun swipeToDeleteEmployee() {
+        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
+            0,
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        ){
+            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+                return false
+            }
 
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+               val employee = employeeAdapter.currentList[viewHolder.adapterPosition]
+                employeeViewModel.deleteEmployee(employee)
+                Snackbar.make(employee_recycler, "Employee ${employee.firstName} Deleted", Snackbar.LENGTH_LONG)
+                    .setAction("UNDO"){
+                        employeeViewModel.insertEmployee(employee)
+                    }.show()
+            }
+
+        }).attachToRecyclerView(employee_recycler)
     }
 
 
